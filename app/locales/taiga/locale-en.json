@@ -152,7 +152,8 @@
             "IS_BLOCKED": "is blocked",
             "REF": "Ref",
             "VOTES": "Votes",
-            "SPRINT": "Sprint"
+            "SPRINT": "Sprint",
+            "REAL_POINTS": "End Points"
         },
         "ROLES": {
             "ALL": "All"

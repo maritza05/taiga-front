@@ -59,6 +59,9 @@
 
     div.points(tg-backlog-us-points="us")
         a.us-points(href="", title="{{'COMMON.FIELDS.POINTS' | translate}}")
+      
+    div.points
+        span(ng-bind="us.real_total_points" ng-show="us.is_closed")
 
     a.e2e-drag(tg-check-permission="modify_us", href="", title="{{'COMMON.DRAG' | translate}}")
         tg-svg(svg-icon="icon-drag")

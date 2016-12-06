@@ -12,6 +12,14 @@ form
             data-required="true"
             data-maxlength="500"
         )
+    
+    fieldset
+        input(
+          type="text",
+          name="real points"
+          ng-model="us.real_total_points"
+          placeholder="REAL TOTAL POINTS"
+        )
 
     fieldset.ticket-estimation
         tg-lb-us-estimation(ng-model="us")
