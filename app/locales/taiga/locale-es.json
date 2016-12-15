@@ -1698,6 +1698,7 @@
         }
     },
     "CUSTOM_DASHBOARD": {
-      "PAGE_TITLE": "Dashboard"
+      "PAGE_TITLE": "Dashboard",
+      "PAGE_DESCRIPTION": "Descubre qué es lo que indican los datos sobre el desempeño de un proyecto"
     }
 }
