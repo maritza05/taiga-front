@@ -120,6 +120,10 @@ urls = {
     "user-settings-mail-notifications": "/user-settings/mail-notifications"
     "user-settings-contrib": "/user-settings/contrib/:plugin"
 
+    #####################################################################
+    # Custom urls for the dashboard
+    #####################################################################
+    "custom-dashboard": "/custom-dashboard"
 }
 
 init = ($log, $navurls) ->
