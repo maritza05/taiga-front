@@ -126,6 +126,24 @@ configure = ($routeProvider, $locationProvider, $httpProvider, $provide, $tgEven
             controllerAs: "vm"
         }
     )
+
+    ####################################################
+    # URL for the custom dashboard
+    ####################################################
+    $routeProvider.when("/custom-dashboard/",
+      {
+        templateUrl: "custom-dashboard/custom-dashboard.html",
+        access: {
+          requiresLogin: false
+        },
+        title: "CUSTOM_DASHBOARD.PAGE_TITLE",
+        description: "CUSTOM_DASHBOARD.PAGE_DESCRIPTION",
+        loader: true,
+        controller: "CustomDashboard",
+        controllerAs: "vm"
+      }
+    )
+
     # Project
     $routeProvider.when("/project/:pslug/",
         {
@@ -837,7 +855,9 @@ modules = [
     "ngAria",
     "pascalprecht.translate",
     "infinite-scroll",
-    "tgRepeat"
+    "tgRepeat",
+
+    "taigaCustomDashboard"
 ].concat(pluginsModules)
 
 # Main module definition
