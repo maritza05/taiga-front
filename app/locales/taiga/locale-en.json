@@ -870,7 +870,8 @@
             "WIKI": "Wiki",
             "TEAM": "Team",
             "MEETUP": "Meet Up",
-            "ADMIN": "Admin"
+            "ADMIN": "Admin",
+            "CUSTOM_DASHBOARD": "Analytics"
         },
         "NAVIGATION": {
             "SECTION_TITLE": "Your projects",
@@ -1710,5 +1711,9 @@
             "ACTION_TITLE": "Search",
             "RESULTS": "Search results"
         }
+    },
+    "CUSTOM_DASHBOARD": {
+      "PAGE_TITLE": "Analytics"
     }
+
 }

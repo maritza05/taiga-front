@@ -865,7 +865,8 @@
             "WIKI": "Wiki",
             "TEAM": "Equipo",
             "MEETUP": "Meet Up",
-            "ADMIN": "Admin"
+            "ADMIN": "Admin",
+            "CUSTOM_DASHBOARD": "Dashboard"
         },
         "NAVIGATION": {
             "SECTION_TITLE": "Tus proyectos",
@@ -1695,5 +1696,8 @@
             "ACTION_TITLE": "Buscar",
             "RESULTS": "Resultados de búsqueda"
         }
+    },
+    "CUSTOM_DASHBOARD": {
+      "PAGE_TITLE": "Dashboard"
     }
 }
