@@ -87,6 +87,16 @@ nav.menu(
                     tg-svg(svg-icon="icon-wiki")
                     span.helper(translate="PROJECT.SECTION.WIKI")
 
+            li#nav-dashboard
+                a(
+                    tg-nav="#"
+                    ng-class="{active: vm.active == 'dashboard'}"
+                    aria-label="{{'PROJECT.SECTION.CUSTOM_DASHBOARD' | translate}}"
+                    tabindex="9"
+                )
+                    tg-svg(svg-icon="icon-graph")
+                    span.helper(translate="PROJECT.SECTION.CUSTOM_DASHBOARD")
+
             li#nav-team
                 a(
                     tg-nav="project-team:project=vm.project.get('slug')"
