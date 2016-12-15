@@ -31,6 +31,12 @@ class ProjectsService extends taiga.Service
             .then (project) =>
                 return @._decorate(project)
 
+    ###################################################
+    ## Cutom field: Get all the projects
+    ##################################################
+    getAllProjects: ->
+        return @rs.projects
+
     getProjectStats: (projectId) ->
         return @rs.projects.getProjectStats(projectId)
 
