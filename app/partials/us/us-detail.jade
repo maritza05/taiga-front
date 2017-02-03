@@ -18,6 +18,7 @@ div.wrapper(
                     title="{{'US.TITLE_LINK_TASKBOARD' | translate}}"
                     translate="US.LINK_TASKBOARD"
                 )
+                
 
         section.us-story-main-data
             header
@@ -49,6 +50,8 @@ div.wrapper(
                 model="us",
                 required-perm="modify_us"
             )
+          
+        
 
         // Custom Fields
         tg-custom-attributes-values(
@@ -57,7 +60,9 @@ div.wrapper(
             project="project"
             required-edition-perm="modify_us"
         )
-
+      
+        
+      
         include ../includes/modules/related-tasks
 
         tg-attachments-full(
@@ -94,13 +99,17 @@ div.wrapper(
             )
 
         tg-us-estimation.ticket-estimation(ng-model="us")
-
         section.ticket-assigned-to(
             tg-assigned-to
             ng-model="us"
             required-perm="modify_us"
         )
-
+        
+        section.ticket-header 
+            span.ticket-title PUNTOS REALES
+        tg-real-total-points.ticket-estimation(ng-model="us")
+        
+        
         section.ticket-watch-buttons
             div.ticket-watch(
                 tg-watch-button
@@ -147,3 +156,6 @@ div.wrapper(
     )
     div.lightbox.lightbox-select-user(tg-lb-assignedto)
     div.lightbox.lightbox-select-user(tg-lb-watchers)
+    //- div(tg-lb-create-edit-userstory)
+    //-     include ../includes/modules/lightbox-us-create-edit
+    

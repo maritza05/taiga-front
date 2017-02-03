@@ -80,8 +80,71 @@ module.directive("tgLbUsEstimation", ["$tgEstimationsService", "$rootScope", "$t
 
 
 #############################################################################
+## Real points directive
+#############################################################################
+UsRealPointsDirective = ($tgEstimationsService, $rootScope, $repo, $template, $compile, $modelTransform, $confirm) ->
+    link = ($scope, $el, $attrs, $model) ->
+        save = (points) ->
+            transform = $modelTransform.save (us) =>
+                us.real_total_points = points
+
+                return us
+
+            onError = =>
+                $confirm.notify("error")
+
+            return transform.then(null, onError)
+
+        $scope.$watchCollection () ->
+            return $model.$modelValue && $model.$modelValue.points && $model.$modelValue.real_total_points
+        , () ->
+            us = $model.$modelValue
+            if us
+                estimationProcess = $tgEstimationsService.create($el, us, $scope.project)
+                estimationProcess.onSelectedPointForRole = (roleId, pointId, points) ->
+                    desired_point = points.real_total_points
+                    desired_value = _.filter($scope.project.points, (point) -> point.id == desired_point)
+                    desired_value = desired_value[0]
+                    if desired_value.value is null
+                        desired_value = 0
+                    else
+                        desired_value = desired_value.value
+                    estimationProcess.loading = 'real_total_points'
+                    estimationProcess.render()
+                    save(desired_value).then () ->
+                        estimationProcess.loading = false
+                        $rootScope.$broadcast("object:updated")
+                        estimationProcess.render()
+
+                estimationProcess.render = () ->
+                    ctx = {
+                        realTotalPoints: us.real_total_points
+                        role: 'real_total_points'
+                        editable: @isEditable
+                        loading: estimationProcess.loading
+                    }
+                    mainTemplate = "common/estimation/us-real-points.html"
+                    template = $template.get(mainTemplate, true)
+                    html = template(ctx)
+                    html = $compile(html)($scope)
+                    @$el.html(html)
+
+                estimationProcess.render()
+
+        $scope.$on "$destroy", ->
+            $el.off()
+    return {
+        link: link
+        restrict: "EA"
+        require: "ngModel"
+    }
+module.directive("tgRealTotalPoints", ["$tgEstimationsService", "$rootScope", "$tgRepo",
+                                    "$tgTemplate", "$compile", "$tgQueueModelTransformation",
+                                    "$tgConfirm", UsRealPointsDirective])
+#############################################################################
 ## User story estimation directive
 #############################################################################
+
 
 UsEstimationDirective = ($tgEstimationsService, $rootScope, $repo, $template, $compile, $modelTransform, $confirm) ->
     # Display the points of a US and you can edit it.
@@ -222,10 +285,8 @@ EstimationsService = ($template, $repo, $confirm, $q, $qqueue) ->
                 roleId = target.data("role-id")
                 pointId = target.data("point-id")
                 @$el.find(".popover").popover().close()
-
                 points = _.clone(@us.points, true)
                 points[roleId] = pointId
-
                 @onSelectedPointForRole(roleId, pointId, points)
 
         renderPointsSelector: (roleId, target) ->

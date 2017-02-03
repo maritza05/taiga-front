@@ -138,6 +138,9 @@ class UserStoryDetailController extends mixOf(taiga.Controller, taiga.PageMixin)
         @scope.pointsById = groupBy(@scope.pointsList, (e) -> e.id)
         return project
 
+
+
+
     loadUs: ->
         httpParams = _.pick(@location.search(), "milestone", "no-milestone", "kanban-status")
         milestone = httpParams.milestone
@@ -444,6 +447,11 @@ UsTeamRequirementButtonDirective = ($rootscope, $tgrepo, $confirm, $loading, $mo
     }
 
 module.directive("tgUsTeamRequirementButton", ["$rootScope", "$tgRepo", "$tgConfirm", "$tgLoading", "$tgQueueModelTransformation", "$tgTemplate", "$compile", UsTeamRequirementButtonDirective])
+
+#############################################################################
+## Trying to modify the total points
+#############################################################################
+
 
 #############################################################################
 ## User story client requirements button directive

@@ -22,6 +22,8 @@
 # File: modules/components/wysiwyg/item-wysiwyg.directive.coffee
 ###
 
+
+
 # Used in details descriptions
 ItemWysiwyg = ($modelTransform, $rootscope, $confirm, attachmentsFullService, $translate) ->
     link = ($scope, $el, $attrs) ->

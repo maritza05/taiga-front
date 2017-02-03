@@ -2383,7 +2383,10 @@ a.list-group-item:hover,
 a.list-group-item:focus,
 button.list-group-item:hover,
 button.list-group-item:focus {
-    color: #758697
+    color: #758697;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #9dce0a;
 }
 .list-group-item .list-group-item-heading,
 a.list-group-item .list-group-item-heading,
@@ -2411,17 +2414,25 @@ button.list-group-item .list-group-item-heading {
 .list-group-item.active:hover,
 .list-group-item.active:focus {
     background-color: #eee;
-    border-color: #8bc34a;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #9dce0a;
     color: #777
 }
 .list-group-item.active .list-group-item-text,
 .list-group-item.active:hover .list-group-item-text,
 .list-group-item.active:focus .list-group-item-text {
-    color: #fff
+    color: #fff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #9dce0a;
 }
 a.list-group-item:hover,
 a.list-group-item:focus {
-    background-color: rgba(0, 0, 0, 0.05)
+    background-color: rgba(0, 0, 0, 0.05);
+    border-width: 1px;
+    border-style: solid;
+    border-color: #9dce0a;
 }
 a.list-group-item-primary,
 .list-group-item-primary {
@@ -2432,7 +2443,10 @@ a.list-group-item-primary,
 a.list-group-item-primary:hover,
 a.list-group-item-primary:focus {
     background-color: #72bcf8;
-    color: #fff
+    color: #fff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #9dce0a;
 }
 a.list-group-item-info,
 .list-group-item-info {
@@ -4975,4 +4989,25 @@ svg:not(:root), symbol, image, marker, pattern, foreignObject {
 svg {
     pointer-events: all;
 }
+
+.scroller {
+    white-space: pre-line;
+    height: 500px;
+    overflow-y: hidden;
+    position: relative;
+}
+
+.custom-item {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+}
+
+.custom-progress {
+  margin-top: 5px;
+  display: inline-flex;
+  width: 100%;
+  color: white;
+}
+
 }

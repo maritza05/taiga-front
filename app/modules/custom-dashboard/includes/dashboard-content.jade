@@ -1,24 +1,26 @@
 section.main(style="padding-left: 15px; padding-right: 15px; background-color: #ecf0f5")
     header
         h1
-            span {{ project.name }}
-            span.green  Dashboard
+            span.green DASHBOARD
+            span  {{ project.name }}
     div.app
         div(id="page-content")
-            section(ng-if="project")        
+            section(ng-if="project") 
+                
+                   
                 div.row 
                     div.col-lg-7
                         div.panel(id="demo-panel-network")
                             div.panel-heading 
                                 h3.panel-title Burndown Chart
                             div.panel-body 
-                                div(tg-burndown-flot-directive id="high1" style="height: 340px;")
+                                div(tg-burndown-directive id="main-burndown-chart" style="height: 340px;")
                     div.col-lg-5
                         div.row
                             div.col-sm-6.col-lg-6 
                                 div.panel.panel-success.panel-colorful 
                                     div.pad-all(style="padding-bottom:0px")
-                                        p.text-lg.text-semibold % of Completed 
+                                        p.text-lg.text-semibold % Completado
                                     div.pad-all.text-center(style="padding:top;padding-bottom:20px") 
                                         div.pie-title-center(tg-project-percent-directive)
                                             span.pie-value 35%
@@ -26,7 +28,7 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
                             div.col-sm-6.col-lg-6 
                                 div.panel.panel-info.panel-colorful
                                     div.pad-all(style="padding-bottom:0px") 
-                                        p.text-lg.text-semibold % of Deviation
+                                        p.text-lg.text-semibold % de Desviación al Plan
                                     div.pad-all.text-center(style="padding:top;padding-bottom:20px")  
                                         div.pie-title-center(tg-project-deviation-directive)
                                             span.pie-value 35%
@@ -34,155 +36,182 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
                             div.col-sm-6.col-lg-6 
                                 div.panel.panel-purple.panel-colorful
                                     div.pad-all(style="padding-bottom:0px") 
-                                        p.text-lg.text-semibold % of Solved Issues
+                                        p.text-lg.text-semibold % Problemas Resueltos
                                     div.pad-all.text-center(style="padding:top;padding-bottom:20px")
                                         div.pie-title-center(tg-project-completed-issues-directive)
                                             span.pie-value 35%
                                             
                             div.col-sm-6.col-lg-6 
                                 div.panel.panel-warning.panel-colorful 
-                                    div.pad-all 
-                                        p.text-lg.text-semibold Task Progress 
-                                        p.mar-no 
-                                            span.pull-right.text-bold 34 
-                                                Completed 
-                                        p.mar-no 
-                                            span.pull-right.text-bold 79
-                                                Total 
-                                    div.pad-all 
-                                        ul.list-group.list-unstyled 
-                                            li.mar-btm 
-                                                span.label.label-warning.pull-right 15%
-                                                p Progress 
-                                                div.progress.progress-md 
-                                                    div.progress-bar.progress-bar-light 
-                                                        span.sr-only 15%          
+                                    div.pad-all(style="padding-bottom:0px;")
+                                        p.text-lg.text-semibold(style="margin-bottom: 0px;") Puntos Por Rol
+                                    div.pad-all.text-center(style="padding:0px; padding-bottom: 10px;")
+                                        div.pie-title-center(tg-assigned-points-by-role-graph id="points-role" style="width:150px; height:150px;")
+                                    
                                 
                 div.row 
                     div.col-lg-12 
-                        div.panel 
+                        div.panel(style="display: inline-block") 
                             div.panel-heading
-                                h3.panel-title Burndown Chart 
-                            div.panel-body 
-                                div(tg-custom-burndown-highchart-add-graph id="high2" style="min-width:300px;height:300px;margin:0 auto;")
+                                h3.panel-title Estadísticas 
+                            div.panel-body(style="display: inline-block") 
+                                div(tg-predictive-burndown-directive id="predictive-burndown-chart" style="height:340px;margin:0 auto;")
                                 div.row.padding-top(style="display: inline-block") 
-                                    div.col-lg-8 
-                                        div.media 
+                                    div.col-lg-12
+                                        div.media(style="padding-left: 5%")  
                                             div.media-left 
                                                 div.media 
-                                                    p.text-semibold.text-main Temperature 
-                                                    div.media-left.pad-no 
-                                                        span.media-left.pad-no 43.7
-                                                    div.media-body 
-                                                        p.mar-no °C
+                                                    p.text-semibold.text-main  
+                                                    
                                             div.media-body.pad-lft 
                                                 div.media-body.pad-lft 
                                                     div.pad-btm(tg-sprints-prediction-directive) 
-                                                        p.text-semibold.text-main.mar-no Today Tips 
-                                                        small.prediction A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
-                    div.col-lg-3 
-                        div.panel.panel-bordered-info 
-                            div.panel-heading 
-                                h3.panel-title 
-                            div.panel-body 
-                                p Lorem ipsum sit amet
+                                                        p.text-semibold.text-main.mar-no Predicciones
+                                                        small.prediction 
+                
                   
                               
                 div.row 
-                    div.col-lg-9 
+                    div.col-lg-9
                         div.panel 
                             div.panel-heading 
-                                h3.panel-title Velocity 
+                                h3.panel-title Velocidad 
                             div.panel-body 
-                                div(tg-custom-velocity-highchart-graph id="high3" style="min-width:310px; height:250px;margin:0 auto;")
+                                div(tg-custom-velocity-highchart-graph id="high3" style="min-width:310px; height:350px;margin:0 auto;")
                     
-                    div.col-lg-3 
+                    div.col-lg-3
                         div.row 
                             div.col-sm-6.col-lg-12 
-                                div.panel.panel-colorful.panel-success 
-                                    div.pad-all.text-center 
-                                        canvas.canvas-responsive(tg-project-should-velocity-gauge id="should-velocity-gauge" height="120")
-                                        p
-                                            span.text-lg.text-semibold(id="demo-gauge-text") 
-                                            % Loaded 
+                                div.panel.panel-info.panel-colorful(style="height: 210px;") 
+                                    div.pad-all.text-center(style="padding-bottom:0px") 
+                                        p.text-lg.text-semibold Velocidad Planeada
+                                    div.pad-all.text-center(style="padding-top: 20px;") 
+                                        span.text-3x.text-thin {{ plannedSpeed }}
+                                        p Puntos por Sprint 
+                                            
                             div.col-sm-6.col-lg-12 
                                 div.panel.panel-colorful.panel-success
+                                    div.pad-all.text-center(style="padding-bottom:0px") 
+                                        p.text-lg.text-semibold(style="margin-bottom:0px") Velocidad Alcanzada
                                     div.pad-all.text-center 
-                                        canvas.canvas-responsive(tg-project-is-velocity-gauge id="avg-velocity-gauge" height="120")
+                                        canvas.canvas-responsive(tg-project-is-velocity-gauge id="avg-velocity-gauge" height="100")
                                         p
-                                            span.text-lg.text-semibold 57 % Loaded 
+                                            span.text-lg.text-semibold {{ actualSpeed }} 
+                                            small Puntos por Sprint
+                                             
                 
                 div.row
                     div.col-lg-12 
                         div.panel 
                             div.panel-heading 
-                                h3.panel-title Issues 
+                                h3.panel-title Riesgos por Categoría 
                             div.panel-body 
-                                div(tg-issues-severity-graph id="high4" style="min-width: 310px; height: 300px; margin: 0 auto;")
-                                            
-                div.row 
+                                div(tg-issues-severity-graph id="issues-chart" style="min-width: 310px; height: 300px; margin: 0 auto;")
+                      
+                div.row
                     div.col-lg-4 
                         div.panel 
                             div.panel-heading
-                                h3.panel-title Members 
+                                h3.panel-title Sprints
                             div.panel-body 
-                                div.list-group.bord-no
-                                    a.list-group-item(ng-repeat="sprint in sprints", style="cursor:pointer" ng-click="vm.setSprint(sprint)") {{ sprint.name }}
-                                        div.progress(style="margin-top: 5px")
-                                            div.progress-bar.progress-bar-success(style="width: {{sprint.completedPercentagePoints}}%") {{sprint.completedPercentagePoints}}%
-                    
+                                perfect-scrollbar(class="scroller" wheel-propagation="true" wheel-speed="10" min-scrollbar-length="10")
+                                    div.list-group.bord-no
+                                        a.list-group-item.custom-item(ng-repeat="sprint in sprints", style="cursor:pointer" ng-click="vm.setSprint(sprint)") {{ sprint.name }}
+                                            div.progress.custom-progress(style="margin-top: 5px")
+                                                div.progress-bar.progress-bar-success(style="line-height: 1.05em; width: {{sprint.completedPercentagePoints}}%") 
+                                                    span(style="padding-left: 5px; font-size: 12px; padding-top: 1px;") {{sprint.completedPercentagePoints}}%
+
                     div.col-lg-8 
                         div.row 
                             div.col-md-12.col-lg-6.eq-box-lg 
                                 div.panel 
                                     div.panel-heading 
-                                        div.panel-control.panel-control-component
-                                            span.text-muted Auto update 
-                                            input.toggle-switch(id="demo-auto-gauge" type="checkbox")
-                                            label.text-muted(for="demo-auto-gauge")
-                                        h3.panel-title Gauge 
-                                    div.panel-body 
-                                        div.pad-all 
-                                            p.text-lg.text-semibold % of Completed 
-                                        div.pad-all.text-center 
-                                            div.pie-title-center(tg-sprint-percent-directive)
-                                                span.pie-value 35%
+                                        h3.panel-title % Sprint Completado
+                                    div.panel-body.text-center 
+                                        div.pie-title-center(tg-sprint-percent-directive)
+                                            span.pie-value.text-thin 0%
                             
                             div.col-md-12.col-lg-6.eq-box-lg 
                                 div.panel 
                                     div.panel-heading 
-                                        div.panel-control.panel-control-component
-                                            span.text-muted Auto update 
-                                            input.toggle-switch(id="demo-auto-gauge" type="checkbox")
-                                            label.text-muted(for="demo-auto-gauge")
-                                        h3.panel-title Gauge 
-                                    div.panel-body 
-                                        div.pad-all 
-                                            p.text-lg.text-semibold % of Userstories Completed 
-                                        div.pad-all.text-center 
-                                            div.pie-title-center(tg-sprint-percent-userstories-directive)
-                                                span.pie-value 35%                         
+                                        h3.panel-title % Historias de Usuario Completadas 
+                                    div.panel-body.text-center 
+                                        div.pie-title-center(tg-sprint-percent-userstories-directive)
+                                            span.pie-value.text-thin 0%                        
                             
                             div.col-lg-12 
                                   div.panel 
                                       div.panel-heading 
-                                          div.panel-title Velocity by Sprint 
-                                      div.panel-body 
-                                          div(tg-sprint-stats-graph style="min-width:310px;height:300px;margin:0 auto")
+                                          div.panel-title Velocidad por Sprint  
+                                              //- small(style="margin-left: 10px;") ({{ project.name }})
+                                          
+                                      div.panel-body
+                                          div(ng-if="!sprintStats" style="height:280px; text-align:center")
+                                              img(
+                                                    style="max-width:700px; padding-top: 70px;"
+                                                    src="/#{v}/images/empty/empty_mex.png"
+                                                    alt="{{'BACKLOG.EMPTY' | translate}}"
+                                              )
+                                              p.title(style="font-size:1.2rem;font-family:'OpenSans-Light' Arial, Helvetica, sans-serif; margin:0") POR FAVOR SELECCIONA UN SPRINT!
+                                              p(style="line-height:1.5;margin:0 0 20px;font-family: 'OpenSans-Light' Arial, Helvetica, sans-serif; color: #5b8200") Así puedes ver la evolución del proyecto 
+                                          div(ng-if="sprintStats")
+                                              div(tg-sprint-stats-graph id="velocity-sprint" style="min-width:310px;height:300px;margin:0 auto")
                           
                     div.col-lg-12 
+                        div.panel
+                            div.panel-heading 
+                                h3.panel-title Estimaciones 
+                            div.panel-body
+                                div(ng-if="!actualSprint" style="height:280px; text-align:center")
+                                    img(
+                                          style="max-width:700px; padding-top: 70px;"
+                                          src="/#{v}/images/empty/empty_tex.png"
+                                          alt="{{'BACKLOG.EMPTY' | translate}}"
+                                    )
+                                    p.title(style="font-size:1.2rem;font-family:'OpenSans-Light' Arial, Helvetica, sans-serif; margin:0") POR FAVOR SELECCIONA UN SPRINT!
+                                    p(style="line-height:1.5;margin:0 0 20px;font-family: 'OpenSans-Light' Arial, Helvetica, sans-serif; color: #5b8200") Así puedes ver la evolución del proyecto 
+                                div(ng-if="actualSprint")
+                                    div(tg-confidence-band-directive id="error-band-chart" style="min-width:310px;height:300px;margin:0 auto")
+                                    rzslider(rz-slider-model="slider.value" rz-slider-options="slider.options")
+                
+                div.row
+                    div.col-lg-4
+                        div.panel
+                            div.panel-heading 
+                                h3.panel-title Equipo 
+                            div.panel-body 
+                                perfect-scrollbar(class="scroller" wheel-propagation="true" wheel.speed="10" min-scroll-length="10" style="height: 350px;")
+                                    a.list-group-item(ng-repeat="user in members | membersFilter:filtersQ:filtersRole", style="cursor:pointer; display:inline-flex; width:100%; border-color: transparent", ng-click="vm.setMember(user)")
+                                        div.media-left.pos-rel(style="width: 50px; padding-right: 20px; padding-left: 10px;")
+                                            img.img-circle.img-xs(tg-avatar="user", tg-bo-alt="user.full_name_display", style="border-radius:8%; margin-top:25px; width: 50px; height: 50px")
+                                            tg-svg(
+                                                    ng-if="user.id == owner"
+                                                    svg-icon="icon-badge"
+                                                    svg-title-translate="COMMON.OWNER"
+                                            )
+                                        div.media-body(style="width: 100%; padding-right: 10px; padding-left: 30px;")
+                                            p.mar-no {{::user.full_name}}
+                                            small.text-muted {{::user.role_name}}
+                                            div.progress.custom-progress(style="margin-top: 5px; width: 80%")
+                                                div.progress-bar.progress-bar-success(style="line-height: 1.05em; width: {{::user.completedPercentageMember}}%") 
+                                                    span(style="padding-left: 5px; font-size: 12px; padding-top: 1px;") {{::user.completedPercentageMember}}%
+                    div.col-md-8
                         div.panel 
                             div.panel-heading 
-                                h3.panel-title Error band 
-                            div.panel-body 
-                                div(tg-confidence-band-directive id="error-band-chart" style="min-width:310px;height:300px;margin:0 auto")
-                                div.col-xs-6 
-                                    p.text-main.mar-btm Step 
-                                    div(id="demo-range-step")
-                                    br
-                                    div
-                                        strong Value :
-                                        span(id="demo-range-step-vale")
+                                h3.panel-title Velocidad de   {{ member.full_name }}
+                            div.panel-body
+                                div(ng-if="!member" style="height:280px; text-align:center")
+                                    img(
+                                          style="max-width:100px; padding-top: 70px; padding-bottom: 20px"
+                                          src="/#{v}/images/empty/empty_contact.png"
+                                          alt="{{'BACKLOG.EMPTY' | translate}}"
+                                    )
+                                    p.title(style="font-size:1.2rem;font-family:'OpenSans-Light' Arial, Helvetica, sans-serif; margin:0") POR FAVOR SELECCIONA UN SPRINT!
+                                    p(style="line-height:1.5;margin:0 0 20px;font-family: 'OpenSans-Light' Arial, Helvetica, sans-serif; color: #5b8200") Así puedes ver la evolución del proyecto 
+                                div(ng-if="member")
+                                    div.burndown(tg-velocity-by-member-directive id="velocity-member" style="height:350px")                      
+                                
+                                
             section(ng-if="!project")
                 .empty-small
                     img(

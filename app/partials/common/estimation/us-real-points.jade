@@ -1,0 +1,11 @@
+ul.points-per-role
+    
+    li.ticket-role-points.total(
+        class!="<% if(editable){ %>clickable<% } %>"
+        data-role-id!="<%- role %>"
+        title!="<%- role %>"
+    )
+        span.points
+            <%- realTotalPoints %>
+            tg-svg(svg-icon="icon-arrow-down")
+        span.role(tg-loading!="<%- loading == role %>") PUNTOS REALES

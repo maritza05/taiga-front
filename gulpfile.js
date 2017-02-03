@@ -76,7 +76,11 @@ paths.css_vendor = [
     paths.modules + "medium-editor/dist/css/medium-editor.css",
     paths.modules + "medium-editor/dist/css/themes/default.css",
     paths.modules + "highlight.js/styles/default.css",
-    paths.modules + "prismjs/themes/prism-okaidia.css"
+    paths.modules + "prismjs/themes/prism-okaidia.css",
+    paths.bower_modules + "perfect-scrollbar/min/perfect-scrollbar.min.css",
+    paths.modules + "angularjs-slider/dist/rzslider.css"
+
+
 ];
 paths.locales = paths.app + "locales/**/*.json";
 paths.modulesLocales = paths.app + "modules/**/locales/*.json";
@@ -204,6 +208,10 @@ paths.libs = [
     paths.app + 'js/gauge.min.js',
     paths.modules + "EasyTabs/vendor/jquery.hashchange.js",
     paths.modules + "EasyTabs/lib/jquery.easytabs.js",
+    paths.bower_modules + "perfect-scrollbar/min/perfect-scrollbar.min.js",
+    paths.bower_modules + "perfect-scrollbar/perfect-scrollbar/min/perfect-scrollbar.with-mousewheel.min.js",
+    paths.bower_modules + "angular-perfect-scrollbar/src/angular-perfect-scrollbar.js",
+    paths.modules + "angularjs-slider/dist/rzslider.js",
     paths.bower_modules + "jquery.easy-pie-chart/dist/jquery.easypiechart.js"
 ];
 
