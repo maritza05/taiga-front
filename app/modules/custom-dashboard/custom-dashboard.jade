@@ -1,8 +1,32 @@
 doctype html
+div.wrapper
+  sidebar.menu-secondary.extrabar.wiki-nav
+    header 
+      h1.title PROJECTS 
 
-div.wrapper()
-    div.custom_dash()
-        Hola
-    sidebar.menu-secondary
-        include includes/project-filters
-    section.main.team
+    ul.wiki-link-container(tg-sort-projects="vm.allprojects")
+      li.wiki-link(tg-repeat="project in vm.allprojects")
+        a.link-title(
+            href="#"
+            ng-click="vm.setProject(project)"
+        ) {{ project.name }}
+
+    
+  include includes/dashboard-content
+    
+//- div.app
+//-     section.vbox
+//-         section.hbox.stretch
+//-             aside.bg-black.dk.aside.hidden-print
+//-                 section.w-f-md.scrollable
+//-                     div.slim-scroll(data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="10px" data-railOpacity="0.2")
+//-                         include includes/project-filters
+//-             section(id="content") 
+//-                 include includes/dashboard-content         
+        //- div.custom_dash()
+        //-     Hola
+        //- sidebar.panel.panel-default
+        //-     include includes/project-filters
+        //- section.vbox
+
+              

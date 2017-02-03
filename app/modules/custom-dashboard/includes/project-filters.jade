@@ -1,17 +1,28 @@
-section.team-filters
-    div.team-filters-inner
-
-        ul(tg-sort-projects="vm.allprojects")
-            li.list-itemtype-project.custom-dash(
-                tg-bind-scope
-                tg-repeat="project in vm.allprojects track by project.get('id')"
-                ng-class="{'blocked-project': project.get('blocked_code')}"
-            )
-                a(
-                    href="#"
-                    tg-nav="custom-dashboard"
-                    ng-class="{active: vm.active == 'dashboard'}"
-                    tabindex="9"
-                )
-                {{ project.get('name') }}
-                tg-svg(svg-icon="icon-arrow-right")
+sidebar.menu-secondary.extrabar.wiki-nav
+    header 
+        h1.title PROJECTS 
+    ul.wiki-link.fixed-link
+        li.wiki-link fixed-link
+            a.link-title(
+                href="#"
+            ) Project1 
+        li.wiki-link fixed-link
+            a.link-title(
+                href="#"
+            ) Project1 
+    //- ul.nav.bg.clearfix(tg-sort-projects="vm.allprojects")
+    //-         li.hidden-nav-xs.padder.m-t.m-b-sm.text-xs.text-muted(
+    //-             tg-bind-scope
+    //-             tg-repeat="project in vm.allprojects track by project.get('id')"
+    //-             ng-class="{'blocked-project': project.get('blocked_code')}"
+    //-         )
+    //-             a(
+    //-                 href="#"
+    //-                 ng-click="vm.setProject(project)"
+    //-                 ng-class="{active: vm.active == 'dashboard'}"
+    //-                 tabindex="9"
+    //-             )
+    //-                 
+    //-                 span {{ project.get('name') }}
+                
+              

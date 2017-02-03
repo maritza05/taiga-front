@@ -1,1 +1,1 @@
-module = angular.module("taigaCustomDashboard", [])
+module = angular.module("taigaCustomDashboard", ["angular-flot"])

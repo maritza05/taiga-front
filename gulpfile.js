@@ -32,6 +32,7 @@ var gulp = require("gulp"),
     path = require('path'),
     addsrc = require('gulp-add-src'),
     jsonminify = require('gulp-jsonminify'),
+
     coffeelint = require('gulp-coffeelint');
 
 var argv = require('minimist')(process.argv.slice(2));
@@ -53,7 +54,7 @@ paths.distVersion = paths.dist + version + "/";
 paths.tmp = "tmp/";
 paths.extras = "extras/";
 paths.modules = "node_modules/";
-
+paths.bower_modules = "bower_components/";
 paths.jade = [
     paths.app + "**/*.jade"
 ];
@@ -100,6 +101,7 @@ paths.css = [
     paths.tmp + "styles/**/*.css",
     paths.tmp + "modules/**/*.css",
     paths.tmp + "custom.css"
+
 ];
 
 paths.css_order = [
@@ -162,6 +164,7 @@ paths.libs = [
     paths.modules + "angular-sanitize/angular-sanitize.js",
     paths.modules + "angular-animate/angular-animate.js",
     paths.modules + "angular-aria/angular-aria.js",
+    paths.modules + "angular-flot/angular-flot.js",
     paths.modules + "angular-translate/dist/angular-translate.js",
     paths.modules + "angular-translate-loader-partial/angular-translate-loader-partial.js",
     paths.modules + "angular-translate-loader-static-files/angular-translate-loader-static-files.js",
@@ -187,12 +190,21 @@ paths.libs = [
     paths.modules + "highlight.js/lib/highlight.js",
     paths.modules + "prismjs/prism.js",
     paths.modules + "medium-editor-autolist/dist/autolist.js",
+    paths.modules + "echarts3/echarts.js",
+    paths.modules + "echarts3/macarons.js",
     paths.app + "js/dom-autoscroller.js",
+    paths.app + "js/highcharts.js",
+    paths.app + "js/exporting.js",
+    paths.app + "js/highcharts-more.js",
     paths.app + "js/dragula-drag-multiple.js",
     paths.app + "js/tg-repeat.js",
     paths.app + "js/sha1-custom.js",
     paths.app + "js/murmurhash3_gc.js",
-    paths.app + "js/medium-mention.js"
+    paths.app + "js/medium-mention.js",
+    paths.app + 'js/gauge.min.js',
+    paths.modules + "EasyTabs/vendor/jquery.hashchange.js",
+    paths.modules + "EasyTabs/lib/jquery.easytabs.js",
+    paths.bower_modules + "jquery.easy-pie-chart/dist/jquery.easypiechart.js"
 ];
 
 paths.libs.forEach(function(file) {

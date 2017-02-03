@@ -103,6 +103,7 @@
     "angular": "1.5.5",
     "angular-animate": "1.5.5",
     "angular-aria": "1.5.5",
+    "angular-flot": "0.0.16",
     "angular-route": "1.5.5",
     "angular-sanitize": "1.5.5",
     "angular-translate": "2.10.0",
@@ -120,6 +121,7 @@
     "immutable": "^3.8.1",
     "intro.js": "^2.3.0",
     "jquery": "^2.2.3",
+    "jquery-easy-tabs": "git+https://github.com/JangoSteve/jQuery-EasyTabs.git",
     "jquery.flot.tooltip": "git+https://git@github.com/krzysu/flot.tooltip.git",
     "l.js": "git+https://git@github.com/juanfran/l.js.git",
     "lodash": "^4.16.4",
@@ -135,6 +137,8 @@
     "prismjs": "^1.5.1",
     "raven-js": "^3.7.0",
     "showdown": "^1.4.3",
-    "to-markdown": "^3.0.1"
+    "to-markdown": "^3.0.1",
+    "echarts": "git+https://github.com/ecomfe/echarts.git",
+    "highcharts": "^5.0.7"
   }
 }

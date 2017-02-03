@@ -1,0 +1,361 @@
+section.main(style="padding-left: 15px; padding-right: 15px; background-color: #ecf0f5")
+    header
+        h1
+            span {{ project.name }}
+            span.green  Dashboard
+    div.app
+        div(id="page-content")
+            section(ng-if="project")        
+                div.row 
+                    div.col-lg-7
+                        div.panel(id="demo-panel-network")
+                            div.panel-heading 
+                                h3.panel-title Burndown Chart
+                            div.panel-body 
+                                div(tg-burndown-flot-directive id="high1" style="height: 340px;")
+                    div.col-lg-5
+                        div.row
+                            div.col-sm-6.col-lg-6 
+                                div.panel.panel-success.panel-colorful 
+                                    div.pad-all(style="padding-bottom:0px")
+                                        p.text-lg.text-semibold % of Completed 
+                                    div.pad-all.text-center(style="padding:top;padding-bottom:20px") 
+                                        div.pie-title-center(tg-project-percent-directive)
+                                            span.pie-value 35%
+                                            
+                            div.col-sm-6.col-lg-6 
+                                div.panel.panel-info.panel-colorful
+                                    div.pad-all(style="padding-bottom:0px") 
+                                        p.text-lg.text-semibold % of Deviation
+                                    div.pad-all.text-center(style="padding:top;padding-bottom:20px")  
+                                        div.pie-title-center(tg-project-deviation-directive)
+                                            span.pie-value 35%
+                                            
+                            div.col-sm-6.col-lg-6 
+                                div.panel.panel-purple.panel-colorful
+                                    div.pad-all(style="padding-bottom:0px") 
+                                        p.text-lg.text-semibold % of Solved Issues
+                                    div.pad-all.text-center(style="padding:top;padding-bottom:20px")
+                                        div.pie-title-center(tg-project-completed-issues-directive)
+                                            span.pie-value 35%
+                                            
+                            div.col-sm-6.col-lg-6 
+                                div.panel.panel-warning.panel-colorful 
+                                    div.pad-all 
+                                        p.text-lg.text-semibold Task Progress 
+                                        p.mar-no 
+                                            span.pull-right.text-bold 34 
+                                                Completed 
+                                        p.mar-no 
+                                            span.pull-right.text-bold 79
+                                                Total 
+                                    div.pad-all 
+                                        ul.list-group.list-unstyled 
+                                            li.mar-btm 
+                                                span.label.label-warning.pull-right 15%
+                                                p Progress 
+                                                div.progress.progress-md 
+                                                    div.progress-bar.progress-bar-light 
+                                                        span.sr-only 15%          
+                                
+                div.row 
+                    div.col-lg-12 
+                        div.panel 
+                            div.panel-heading
+                                h3.panel-title Burndown Chart 
+                            div.panel-body 
+                                div(tg-custom-burndown-highchart-add-graph id="high2" style="min-width:300px;height:300px;margin:0 auto;")
+                                div.row.padding-top(style="display: inline-block") 
+                                    div.col-lg-8 
+                                        div.media 
+                                            div.media-left 
+                                                div.media 
+                                                    p.text-semibold.text-main Temperature 
+                                                    div.media-left.pad-no 
+                                                        span.media-left.pad-no 43.7
+                                                    div.media-body 
+                                                        p.mar-no °C
+                                            div.media-body.pad-lft 
+                                                div.media-body.pad-lft 
+                                                    div.pad-btm(tg-sprints-prediction-directive) 
+                                                        p.text-semibold.text-main.mar-no Today Tips 
+                                                        small.prediction A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.
+                    div.col-lg-3 
+                        div.panel.panel-bordered-info 
+                            div.panel-heading 
+                                h3.panel-title 
+                            div.panel-body 
+                                p Lorem ipsum sit amet
+                  
+                              
+                div.row 
+                    div.col-lg-9 
+                        div.panel 
+                            div.panel-heading 
+                                h3.panel-title Velocity 
+                            div.panel-body 
+                                div(tg-custom-velocity-highchart-graph id="high3" style="min-width:310px; height:250px;margin:0 auto;")
+                    
+                    div.col-lg-3 
+                        div.row 
+                            div.col-sm-6.col-lg-12 
+                                div.panel.panel-colorful.panel-success 
+                                    div.pad-all.text-center 
+                                        canvas.canvas-responsive(tg-project-should-velocity-gauge id="should-velocity-gauge" height="120")
+                                        p
+                                            span.text-lg.text-semibold(id="demo-gauge-text") 
+                                            % Loaded 
+                            div.col-sm-6.col-lg-12 
+                                div.panel.panel-colorful.panel-success
+                                    div.pad-all.text-center 
+                                        canvas.canvas-responsive(tg-project-is-velocity-gauge id="avg-velocity-gauge" height="120")
+                                        p
+                                            span.text-lg.text-semibold 57 % Loaded 
+                
+                div.row
+                    div.col-lg-12 
+                        div.panel 
+                            div.panel-heading 
+                                h3.panel-title Issues 
+                            div.panel-body 
+                                div(tg-issues-severity-graph id="high4" style="min-width: 310px; height: 300px; margin: 0 auto;")
+                                            
+                div.row 
+                    div.col-lg-4 
+                        div.panel 
+                            div.panel-heading
+                                h3.panel-title Members 
+                            div.panel-body 
+                                div.list-group.bord-no
+                                    a.list-group-item(ng-repeat="sprint in sprints", style="cursor:pointer" ng-click="vm.setSprint(sprint)") {{ sprint.name }}
+                                        div.progress(style="margin-top: 5px")
+                                            div.progress-bar.progress-bar-success(style="width: {{sprint.completedPercentagePoints}}%") {{sprint.completedPercentagePoints}}%
+                    
+                    div.col-lg-8 
+                        div.row 
+                            div.col-md-12.col-lg-6.eq-box-lg 
+                                div.panel 
+                                    div.panel-heading 
+                                        div.panel-control.panel-control-component
+                                            span.text-muted Auto update 
+                                            input.toggle-switch(id="demo-auto-gauge" type="checkbox")
+                                            label.text-muted(for="demo-auto-gauge")
+                                        h3.panel-title Gauge 
+                                    div.panel-body 
+                                        div.pad-all 
+                                            p.text-lg.text-semibold % of Completed 
+                                        div.pad-all.text-center 
+                                            div.pie-title-center(tg-sprint-percent-directive)
+                                                span.pie-value 35%
+                            
+                            div.col-md-12.col-lg-6.eq-box-lg 
+                                div.panel 
+                                    div.panel-heading 
+                                        div.panel-control.panel-control-component
+                                            span.text-muted Auto update 
+                                            input.toggle-switch(id="demo-auto-gauge" type="checkbox")
+                                            label.text-muted(for="demo-auto-gauge")
+                                        h3.panel-title Gauge 
+                                    div.panel-body 
+                                        div.pad-all 
+                                            p.text-lg.text-semibold % of Userstories Completed 
+                                        div.pad-all.text-center 
+                                            div.pie-title-center(tg-sprint-percent-userstories-directive)
+                                                span.pie-value 35%                         
+                            
+                            div.col-lg-12 
+                                  div.panel 
+                                      div.panel-heading 
+                                          div.panel-title Velocity by Sprint 
+                                      div.panel-body 
+                                          div(tg-sprint-stats-graph style="min-width:310px;height:300px;margin:0 auto")
+                          
+                    div.col-lg-12 
+                        div.panel 
+                            div.panel-heading 
+                                h3.panel-title Error band 
+                            div.panel-body 
+                                div(tg-confidence-band-directive id="error-band-chart" style="min-width:310px;height:300px;margin:0 auto")
+                                div.col-xs-6 
+                                    p.text-main.mar-btm Step 
+                                    div(id="demo-range-step")
+                                    br
+                                    div
+                                        strong Value :
+                                        span(id="demo-range-step-vale")
+            section(ng-if="!project")
+                .empty-small
+                    img(
+                          src="/#{v}/images/empty/empty_sprint.png"
+                          alt="{{'BACKLOG.EMPTY' | translate}}"
+                    )
+                    p.title PLEASE SELECT A PROJECT!
+                    p You can see the project evolution through different tiples of charts
+                                
+        //- //- section.vbox
+        //-     section.hbox.stretch
+        //-         section.w-f-md.scrollable
+        //-             div.slim-scroll(data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="10px" data-railOpacity="0.2")
+        //-                 section(ng-if="project")
+        //-                     section.scrollable.padder
+        //-                         section.panel.panel-default
+        //-                             header.panel-heading.font-bold Burndown Chart 
+        //-                             div.panel-body(style="height:378px")
+        //-                                 div.burndown(tg-custom-burndown-graph)
+        //-                                         
+        //-                             footer.panel-footer.bg-white 
+        //-                                 div.row.text-center.no-gutter 
+        //-                                     div.col-xs-3.b-r.b-light 
+        //-                                         p.h3.font-bold.m-t 5,860
+        //-                                         p.text-muted Orders
+        //-                                     div.col-xs-3.b-r.b-light
+        //-                                         p.h3.font-bold.m-t 10,450
+        //-                                         p.text-muted Sellings
+        //-                                     div.col-xs-3.b-r.b-light
+        //-                                         p.h3.font-bold.m-t 21,230
+        //-                                         p.text-muted Items
+        //-                                     div.col-xs-3
+        //-                                         p.h3.font-bold.m-t 7,230
+        //-                                         p.text-muted Customers
+        //-                         
+        //-                         div.row
+        //-                             div.col-md-4 
+        //-                                 section.panel.panel-default
+        //-                                     header.panel-heading Project Completed 
+        //-                                     div.panel-body.text-center
+        //-                                         div.inline(style="margin-top: 10px")
+        //-                                             div.easypiechart(tg-project-percent-directive data-bar-color="#fcc633" data-line-width="16" data-loop="false" data-size="170" style="width: 170px; height: 170px")
+        //-                                                 span.h2.m-l-sm.step(style="line-height: 170px;") 75      
+        //-                                     div.panel-footer 
+        //-                                         small % of average rate of the Conversion
+        //-                                         
+        //-                             div.col-md-4 
+        //-                                 section.panel.panel-default
+        //-                                     header.panel-heading Deviation from Plan 
+        //-                                     div.panel-body.text-center 
+        //-                                         div.inline(style="margin-top: 10px")
+        //-                                             div.easypiechart(tg-project-deviation-directive data-bar-color="#fcc633" data-line-width="16" data-loop="false" data-size="170" style="width: 170px; height: 170px")
+        //-                                                 span.h2.m-l-sm.step(style="line-height: 170px") 75
+        //-                                     div.panel-footer 
+        //-                                         small % of average rate of the Conversion
+        //-                                         
+        //-                             div.col-md-4 
+        //-                                 section.panel.panel-default 
+        //-                                     header.panel-heading Completed Issues 
+        //-                                     div.panel-body.text-center 
+        //-                                         div.inline(style="margin-top: 10px")
+        //-                                             div.easypiechart(tg-project-completed-issues-directive data-bar-color="#fcc633" data-line-width="16" data-loop="false" data-size="170" style="width: 170px; height: 170px")
+        //-                                                 span.h2.m-l-sm.step(style="line-height: 170px") 67
+        //-                                     div.panel-footer 
+        //-                                         small % of average rate of the Conversion
+        //-                                         
+        //-                         section.panel.panel-default 
+        //-                             header.panel-heading.font-bold Velocity 
+        //-                             div.panel-body
+        //-                                 div.burndown(tg-custom-velocity-graph, style="height:300px")
+        //-                                 
+        //-                                       
+        //-                         div.row
+        //-                             div.col-md-12
+        //-                                 section.panel.panel-default 
+        //-                                     header.panel-heading.font-bold Cumulative Flow Diagram 
+        //-                                     div.panel-body 
+        //-                                         div.burndown(tg-custom-comulative-workflow-graph style="height:300px")
+        //-                           
+        //-                         div.row 
+        //-                             div.col-md-12 
+        //-                                 section.panel.panel-default
+        //-                                     header.panel-heading.font-bold Issues by severity
+        //-                                     div.panel-body 
+        //-                                         div.burndown(tg-issues-severity-graph style="height: 320px;")
+        //-                                         
+        //-                         div.row
+        //-                             div.col-md-12
+        //-                                 section.panel.panel-default 
+        //-                                     header.panel-heading.font-bold Confidence Band 
+        //-                                     div.panel-body 
+        //-                                         div.burndown(tg-confidence-points-graph style="height: 300px")
+        //-                                         
+        //-                         
+        //- 
+        //-                           
+        //-                         div.row 
+        //-                             div.col-md-4 
+        //-                                 section.panel.panel-default 
+        //-                                     header.panel-heading Sprints 
+        //-                                     ul.list-group.alt(ng-repeat="sprint in sprints", style="cursor:pointer")
+        //-                                         a.list-group-item(ng-click="vm.setSprint(sprint)") {{ sprint.name }} -> {{ sprint.completedPercentagePoints }}
+        //-                                             
+        //-                             div.col-md-8
+        //-                                 section.panel.panel-default 
+        //-                                     header.panel-heading Chart 
+        //-                                     div.panel-body
+        //-                                         div.burndown(tg-sprint-stats-graph, style="height:240px")
+        //-                                 
+        //-                         div.row             
+        //-                             div.col-lg-4
+        //-                                 section.panel.panel-default 
+        //-                                     header.panel-heading Sprint Percentage
+        //-                                     div.panel-body.text-center
+        //-                                         small.text-muted.block Completed
+        //-                                         div.inline(style="margin-top: 10px")
+        //-                                             div.easypiechart(tg-sprint-percent-directive data-bar-color="#fcc633" data-line-width="16" data-loop="false" data-size="170" style="width: 170px; height: 170px")
+        //-                                                 span.h2.m-l-sm.step(style="line-height: 170px;") 75      
+        //-                                     div.panel-footer 
+        //-                                         small % of average rate of the Conversion
+        //-                                     
+        //-                             div.col-lg-4
+        //-                                 section.panel.panel-default 
+        //-                                     header.panel-heading Userstories 
+        //-                                     div.panel-body.text-center 
+        //-                                         small.text-muted.block Completed userstories 
+        //-                                         div.inline(style="margin-top: 10px")
+        //-                                             div.easypiechart(tg-sprint-percent-userstories-directive data-bar-color="#fcc633" data-line-width="16" data-loop="false" data-size="170" style="width: 170px; height: 170px")
+        //-                                                 span.h2.m-l-sm.step(style="line-height: 170px;") 67
+        //-                                     div.panel-footer 
+        //-                                         small % of userstories completed
+        //-                                             
+        //-                         div.row 
+        //-                             div.col-md-4 
+        //-                                 section.panel.panel-default 
+        //-                                     header.panel-heading Members 
+        //-                                     ul.list-group.alt(ng-repeat="user in members | membersFilter:filtersQ:filtersRole", style="cursor:pointer")
+        //-                                        .username(style="flex-basis: 220px; min-width: 25%;") 
+        //-                                           .avatar(style="align-items:center;display:flex;-webkit-box-align:center;")
+        //-                                               img(tg-avatar="user", tg-bo-alt="user.full_name_display" style="flex-basis: 66px; width:66px; border:2px solid #fff;border-radius:8%;")
+        //-                                           
+        //-                                               .avatar-data 
+        //-                                                   a.name(
+        //-                                                     title="{{::user.full_name}}",
+        //-                                                     style="display:block;width:100%",
+        //-                                                     ng-click="vm.setMember(user)"
+        //-                                                   ) {{::user.full_name}}
+        //-                                                       tg-svg(
+        //-                                                           ng-if="user.id == owner"
+        //-                                                           svg-icon="icon-badge"
+        //-                                                           svg-title-translate="COMMON.OWNER"
+        //-                                                       )
+        //-                                                   span.position {{::user.role_name}}
+        //-                                                   span.position {{::user.id}}
+        //-                                                   span.position ->
+        //-                                                   span.position {{::user.completedPercentageMember}}
+        //-                             div.col-md-8 
+        //-                                 section.panel.panel-default 
+        //-                                     header.panel-heading Member Velocity
+        //-                                     div.panel-body
+        //-                                         div.burndown(tg-velocity-members-graph, style="height:240px")
+        //-                                             
+        //-                                         
+        //-                 
+        //-                 section(ng-if="!project")
+        //-                     .empty-large.js-empty-backlog
+        //-                         img(
+        //-                             src="/#{v}/images/empty/empty_mex.png"
+        //-                             alt="{{'BACKLOG.EMPTY' | translate}}"
+        //-                         )
+        //-                         p.title PLEASE SELECT A PROJECT!
+                            
+                  
+                
+                    
+                    
