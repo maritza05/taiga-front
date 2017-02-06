@@ -86,7 +86,8 @@ UsRealPointsDirective = ($tgEstimationsService, $rootScope, $repo, $template, $c
     link = ($scope, $el, $attrs, $model) ->
         save = (points) ->
             transform = $modelTransform.save (us) =>
-                us.real_total_points = points
+                us.real_points = points
+                us.real_total_points = 12
 
                 return us
 
@@ -102,24 +103,22 @@ UsRealPointsDirective = ($tgEstimationsService, $rootScope, $repo, $template, $c
             if us
                 estimationProcess = $tgEstimationsService.create($el, us, $scope.project)
                 estimationProcess.onSelectedPointForRole = (roleId, pointId, points) ->
-                    desired_point = points.real_total_points
-                    desired_value = _.filter($scope.project.points, (point) -> point.id == desired_point)
-                    desired_value = desired_value[0]
-                    if desired_value.value is null
-                        desired_value = 0
-                    else
-                        desired_value = desired_value.value
-                    estimationProcess.loading = 'real_total_points'
+                    estimationProcess.loading = roleId
                     estimationProcess.render()
-                    save(desired_value).then () ->
+                    $scope.points = points
+                    console.log("Points: ")
+                    console.log(points)
+                    #values = _.map(points, (point) -> point.value)
+                    #sumValues = _.reduce(points, ((res, n) -> res + n), 0)
+                    save(points).then () ->
                         estimationProcess.loading = false
                         $rootScope.$broadcast("object:updated")
                         estimationProcess.render()
 
                 estimationProcess.render = () ->
                     ctx = {
-                        realTotalPoints: us.real_total_points
-                        role: 'real_total_points'
+                        totalPoints: @calculateTotalPoints()
+                        roles: @calculateRoles()
                         editable: @isEditable
                         loading: estimationProcess.loading
                     }

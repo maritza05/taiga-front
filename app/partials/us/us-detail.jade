@@ -107,8 +107,12 @@ div.wrapper(
         
         section.ticket-header 
             span.ticket-title PUNTOS REALES
-        tg-real-total-points.ticket-estimation(ng-model="us")
         
+        .related-tasks-body
+            .row.single-related-task.js-related-task(
+                tg-real-total-points-from-task
+                ng-model="us"
+            )
         
         section.ticket-watch-buttons
             div.ticket-watch(

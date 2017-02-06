@@ -1,0 +1,12 @@
+.task-name
+    a.clickable
+        span(ng-non-bindable) <%- us.real_total_points %>
+
+.task-settings
+    <% if(perms.modify_task) { %>
+    a.edit-task(
+        href=""
+        title="{{'COMMON.EDIT' | translate}}"
+    )
+        tg-svg(svg-icon="icon-edit")
+    <% } %>

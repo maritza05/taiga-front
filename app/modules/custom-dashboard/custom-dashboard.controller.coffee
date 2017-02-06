@@ -203,6 +203,8 @@ class CustomDashboardController
             @scope.sprintStats = undefined
         if @scope.actualSprint?
             @scope.actualSprint = undefined
+        if @scope.member?
+            @scope.member = undefined
         @scope.project = project
         @scope.projectId = project.id
         @scope.slider = {
@@ -1079,7 +1081,9 @@ VelocityByMemberDirective = ->
                     borderWidth:0
             }
             tooltip:
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                crosshairs: true
+                shared: true
+                valueSuffix: ' puntos'
 
             series: [
                   {

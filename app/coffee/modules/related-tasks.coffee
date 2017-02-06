@@ -28,6 +28,71 @@ debounce = @.taiga.debounce
 
 module = angular.module("taigaRelatedTasks", [])
 
+UsRealTotalPointsDirective = ($repo, $compile, $confirm, $rootscope, $loading, $template, $translate) ->
+    templateView = $template.get("real-points/real-points-row.html", true)
+    templateEdit = $template.get("real-points/real-points-edit.html", true)
+
+    link = ($scope, $el, $attrs, $model) ->
+        saveUserstory = debounce 2000, (us) ->
+            us.real_total_points = $el.find('input').val()
+
+            currentLoading = $loading()
+                .target($el.find('.task-name'))
+                .start()
+
+            promise = $repo.save(us)
+            promise.then =>
+                currentLoading.finish()
+                $rootscope.$broadcast("object:updated")
+
+            promise.then null, =>
+                currentLoading.finish()
+                $el.find('input').val(us.real_total_points)
+                $confirm.notify("error")
+            return promise
+
+        renderEdit = (us) ->
+            $el.html($compile(templateEdit({us: us}))($scope))
+
+            $el.find(".task-name input").val(us.real_total_points)
+
+            $el.on "keyup", "input", (event) ->
+                if event.keyCode == 13
+                    saveUserstory($model.$modelValue).then ->
+                          renderView($model.$modelValue)
+                else if event.keyCode == 7
+                    renderView($model.$modelValue)
+
+            $el.on "click", ".save-task", (event) ->
+                saveUserstory($model.$modelValue).then ->
+                    renderView($model.$modelValue)
+
+            $el.on "click", ".cancel-edit", (event) ->
+                renderView($model.$modelValue)
+        #
+        renderView = (us) ->
+            $el.off()
+            perms = {
+                modify_task: $scope.project.my_permissions.indexOf("modify_task") != -1
+                delete_task: $scope.project.my_permissions.indexOf("delete_task") != -1
+            }
+            $el.html($compile(templateView({us: us, perms: perms}))($scope))
+
+            $el.on "click", ".edit-task", ->
+                renderEdit($model.$modelValue)
+                $el.find('input').focus().select()
+
+        $scope.$watch $attrs.ngModel, (val) ->
+            return if not val
+            renderView(val)
+
+        $scope.$on "$destroy", ->
+            $el.off()
+
+    return {link:link, require:"ngModel"}
+
+module.directive("tgRealTotalPointsFromTask", ["$tgRepo", "$compile", "$tgConfirm", "$rootScope", "$tgLoading",
+                                      "$tgTemplate", "$translate", UsRealTotalPointsDirective])
 
 RelatedTaskRowDirective = ($repo, $compile, $confirm, $rootscope, $loading, $template, $translate) ->
     templateView = $template.get("task/related-task-row.html", true)
