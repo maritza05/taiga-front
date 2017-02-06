@@ -1214,8 +1214,8 @@ IssuesSeverityDirective = ->
             if $scope.sprints?
                 redrawChart(element, $scope.sprints, $scope.issues, $scope.testProject)
 
-        $scope.$on "resize", ->
-            redrawChart(element, $scope.sprints, $scope.issues, $scope.testProject)
+                $scope.$on "resize", ->
+                    redrawChart(element, $scope.sprints, $scope.issues, $scope.testProject)
 
         $scope.$on "destroy", ->
             $el.off()

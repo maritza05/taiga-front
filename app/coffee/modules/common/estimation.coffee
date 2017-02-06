@@ -79,67 +79,7 @@ module.directive("tgLbUsEstimation", ["$tgEstimationsService", "$rootScope", "$t
                                       "$compile", LbUsEstimationDirective])
 
 
-#############################################################################
-## Real points directive
-#############################################################################
-UsRealPointsDirective = ($tgEstimationsService, $rootScope, $repo, $template, $compile, $modelTransform, $confirm) ->
-    link = ($scope, $el, $attrs, $model) ->
-        save = (points) ->
-            transform = $modelTransform.save (us) =>
-                us.real_points = points
-                us.real_total_points = 12
 
-                return us
-
-            onError = =>
-                $confirm.notify("error")
-
-            return transform.then(null, onError)
-
-        $scope.$watchCollection () ->
-            return $model.$modelValue && $model.$modelValue.points && $model.$modelValue.real_total_points
-        , () ->
-            us = $model.$modelValue
-            if us
-                estimationProcess = $tgEstimationsService.create($el, us, $scope.project)
-                estimationProcess.onSelectedPointForRole = (roleId, pointId, points) ->
-                    estimationProcess.loading = roleId
-                    estimationProcess.render()
-                    $scope.points = points
-                    console.log("Points: ")
-                    console.log(points)
-                    #values = _.map(points, (point) -> point.value)
-                    #sumValues = _.reduce(points, ((res, n) -> res + n), 0)
-                    save(points).then () ->
-                        estimationProcess.loading = false
-                        $rootScope.$broadcast("object:updated")
-                        estimationProcess.render()
-
-                estimationProcess.render = () ->
-                    ctx = {
-                        totalPoints: @calculateTotalPoints()
-                        roles: @calculateRoles()
-                        editable: @isEditable
-                        loading: estimationProcess.loading
-                    }
-                    mainTemplate = "common/estimation/us-real-points.html"
-                    template = $template.get(mainTemplate, true)
-                    html = template(ctx)
-                    html = $compile(html)($scope)
-                    @$el.html(html)
-
-                estimationProcess.render()
-
-        $scope.$on "$destroy", ->
-            $el.off()
-    return {
-        link: link
-        restrict: "EA"
-        require: "ngModel"
-    }
-module.directive("tgRealTotalPoints", ["$tgEstimationsService", "$rootScope", "$tgRepo",
-                                    "$tgTemplate", "$compile", "$tgQueueModelTransformation",
-                                    "$tgConfirm", UsRealPointsDirective])
 #############################################################################
 ## User story estimation directive
 #############################################################################
