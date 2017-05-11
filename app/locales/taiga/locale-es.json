@@ -152,7 +152,8 @@
             "IS_BLOCKED": "está bloqueada",
             "REF": "Ref",
             "VOTES": "Votos",
-            "SPRINT": "Sprint"
+            "SPRINT": "Sprint",
+            "REAL_POINTS": "Puntos Finales"
         },
         "ROLES": {
             "ALL": "Todos"
@@ -1699,6 +1700,29 @@
     },
     "CUSTOM_DASHBOARD": {
       "PAGE_TITLE": "Dashboard",
-      "PAGE_DESCRIPTION": "Descubre qué es lo que indican los datos sobre el desempeño de un proyecto"
+      "PAGE_DESCRIPTION": "Descubre qué es lo que indican los datos sobre el desempeño de un proyecto",
+      "ISSUE_SEVERITY": "Peticiones por Gravedad",
+      "ISSUE_TYPE": "Peticiones por Tipo",
+      "ISSUE_STATUS": "Peticiones por Estado",
+      "ISSUE_PRIORITY": "Peticiones por Prioridad",
+      "CLOSED_PROJECT": "¿Se encuentra este proyecto cerrado?",
+      "SOLVED_ISSUES": "Peticiones Resueltas",
+      "ESTIMATION_ACCURACY": "Aproximaciones en la estimación",
+      "PROJECT_STATICS": "Estadísticas del Proyecto",
+      "PREDICTIONS": "Predicciones",
+      "VELOCITY": "Velocidad",
+      "COMPLETED_SPRINT": "Sprint Completado",
+      "COMPLETED_PROJECT": "Completado",
+      "PROJECT_DEVIATION": "Desviación al Plan",
+      "ESTIMATION_EFFICIENCY": "Eficiencia en la Estimación",
+      "POINTS_BY_ROLE": "Puntos por Rol",
+      "COMPLETED_USERSTORIES": "Historias de Usuario Completadas",
+      "SPRINT_BURNDOWN": "Burndown Chart del Sprint",
+      "TEAM": "Equipo",
+      "TEAM_VELOCITY": "Velocidad del Miembro de Equipo",
+      "PLANNED_VELOCITY": "Velocidad Promedio planeada",
+      "ACTUAL_VELOCITY": "Velocidad Promedio Alcanzada",
+      "POINTS_BY_SPRINT": "Puntos por Sprint"
+
     }
 }

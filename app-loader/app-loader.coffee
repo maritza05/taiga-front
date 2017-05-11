@@ -1,7 +1,7 @@
 window._version = "___VERSION___"
 
 window.taigaConfig = {
-    "api": "http://localhost:8000/api/v1/",
+    "api": "http://10.200.102.154/api/v1/",
     "eventsUrl": null,
     "tribeHost": null,
     "eventsMaxMissedHeartbeats": 5,

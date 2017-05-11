@@ -7,53 +7,68 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
         div(id="page-content")
             section(ng-if="project") 
                 
-                   
-                div.row 
-                    div.col-lg-7
-                        div.panel(id="demo-panel-network")
-                            div.panel-heading 
-                                h3.panel-title Burndown Chart
-                            div.panel-body 
-                                div(tg-burndown-directive id="main-burndown-chart" style="height: 340px;")
-                    div.col-lg-5
+                div.row
+                    div.col-lg-12
                         div.row
-                            div.col-sm-6.col-lg-6 
+                            div.col-sm-12.col-lg-4 
                                 div.panel.panel-success.panel-colorful 
                                     div.pad-all(style="padding-bottom:0px")
-                                        p.text-lg.text-semibold % Completado
+                                        p.text-lg.text-semibold % {{ 'CUSTOM_DASHBOARD.COMPLETED_PROJECT' | translate}}
                                     div.pad-all.text-center(style="padding:top;padding-bottom:20px") 
                                         div.pie-title-center(tg-project-percent-directive)
                                             span.pie-value 35%
                                             
-                            div.col-sm-6.col-lg-6 
+                            div.col-sm-12.col-lg-4 
                                 div.panel.panel-info.panel-colorful
                                     div.pad-all(style="padding-bottom:0px") 
-                                        p.text-lg.text-semibold % de Desviación al Plan
+                                        p.text-lg.text-semibold % {{ 'CUSTOM_DASHBOARD.PROJECT_DEVIATION' | translate }}
                                     div.pad-all.text-center(style="padding:top;padding-bottom:20px")  
                                         div.pie-title-center(tg-project-deviation-directive)
                                             span.pie-value 35%
                                             
-                            div.col-sm-6.col-lg-6 
+                            div.col-sm-12.col-lg-4 
                                 div.panel.panel-purple.panel-colorful
                                     div.pad-all(style="padding-bottom:0px") 
-                                        p.text-lg.text-semibold % Problemas Resueltos
+                                        p.text-lg.text-semibold % {{ 'CUSTOM_DASHBOARD.SOLVED_ISSUES' | translate }}
                                     div.pad-all.text-center(style="padding:top;padding-bottom:20px")
                                         div.pie-title-center(tg-project-completed-issues-directive)
                                             span.pie-value 35%
                                             
-                            div.col-sm-6.col-lg-6 
-                                div.panel.panel-warning.panel-colorful(style="background-color:#fff;border-color:#fff;color:#2d445c") 
-                                    div.pad-all(style="padding-bottom:0px;")
-                                        p.text-lg.text-semibold(style="margin-bottom: 0px;") Puntos Por Rol
-                                    div.pad-all.text-center(style="padding:0px; padding-bottom: 10px;")
-                                        div.pie-title-center(tg-assigned-points-by-role-graph id="points-role" style="width:150px; height:150px;")
-                                    
+                            //- div.col-sm-6.col-lg-6 
+                            //-     div.panel.panel-warning.panel-colorful(style="background-color:#fff;border-color:#fff;color:#2d445c") 
+                            //-         div.pad-all(style="padding-bottom:0px;")
+                            //-             p.text-lg.text-semibold(style="margin-bottom: 0px;") {{ 'CUSTOM_DASHBOARD.POINTS_BY_ROLE' | translate }}
+                            //-         div.pad-all.text-center(style="padding:0px; padding-bottom: 10px;")
+                            //-             div.pie-title-center(tg-assigned-points-by-role-graph id="points-role" style="width:150px; height:150px;")
+                       
+                div.row 
+                    div.col-sm-12.col-lg-12
+                        div.col-sm-12.col-lg-9
+                            div.panel(id="demo-panel-network")
+                                div.panel-heading 
+                                    h3.panel-title Burndown Chart
+                                div.panel-body 
+                                    div(tg-burndown-directive id="main-burndown-chart" style="height: 340px;")
+                        
+                        div.col-sm-12.col-lg-3
+                            div.panel.panel-warning.panel-colorful(style="background-color:#fff;border-color:#fff;color:#2d445c") 
+                                div.pad-all(style="padding-bottom:0px;")
+                                    p.text-lg.text-semibold(style="margin-bottom: 0px;") {{ 'CUSTOM_DASHBOARD.POINTS_BY_ROLE' | translate }}
+                                div.pad-all.text-center(style="padding:0px; padding-bottom: 10px;")
+                                    div.pie-title-center(tg-assigned-points-by-role-graph id="points-role" style="width:150px; height:150px;")
+                                
+                            div.panel.panel-info.panel-colorful
+                                div.pad-all(style="padding-bottom:0px") 
+                                    p.text-lg.text-semibold % {{ 'CUSTOM_DASHBOARD.ESTIMATION_EFFICIENCY' | translate }}
+                                div.pad-all.text-center(style="padding:top;padding-bottom:20px")  
+                                    div.pie-title-center(tg-efficiency-estimation-directive)
+                                        span.pie-value 35%        
                                 
                 div.row 
                     div.col-lg-12 
                         div.panel(style="display: inline-block") 
                             div.panel-heading
-                                h3.panel-title Estadísticas 
+                                h3.panel-title {{ 'CUSTOM_DASHBOARD.PROJECT_STATICS' | translate }}
                             div.panel-body(style="display: inline-block") 
                                 div(tg-predictive-burndown-directive id="predictive-burndown-chart" style="height:340px;margin:0 auto;")
                                 div.row.padding-top(style="display: inline-block") 
@@ -66,16 +81,14 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
                                             div.media-body.pad-lft 
                                                 div.media-body.pad-lft 
                                                     div.pad-btm(tg-sprints-prediction-directive) 
-                                                        p.text-semibold.text-main.mar-no Predicciones
+                                                        p.text-semibold.text-main.mar-no {{'CUSTOM_DASHBOARD.PREDICTIONS' | translate }}
                                                         small.prediction 
-                
-                  
-                              
+                          
                 div.row 
                     div.col-lg-9
                         div.panel 
                             div.panel-heading 
-                                h3.panel-title Velocidad 
+                                h3.panel-title {{'CUSTOM_DASHBOARD.VELOCITY' | translate }} 
                             div.panel-body 
                                 div(tg-custom-velocity-highchart-graph id="high3" style="min-width:310px; height:350px;margin:0 auto;")
                     
@@ -84,30 +97,22 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
                             div.col-sm-6.col-lg-12 
                                 div.panel.panel-info.panel-colorful(style="height: 210px;") 
                                     div.pad-all.text-center(style="padding-bottom:0px") 
-                                        p.text-lg.text-semibold Velocidad Planeada
+                                        p.text-lg.text-semibold {{'CUSTOM_DASHBOARD.PLANNED_VELOCITY' | translate }}
                                     div.pad-all.text-center(style="padding-top: 20px;") 
                                         span.text-3x.text-thin {{ plannedSpeed }}
-                                        p Puntos por Sprint 
+                                        p {{'CUSTOM_DASHBOARD.POINTS_BY_SPRINT' | translate }}
                                             
                             div.col-sm-6.col-lg-12 
                                 div.panel.panel-colorful.panel-success
                                     div.pad-all.text-center(style="padding-bottom:0px") 
-                                        p.text-lg.text-semibold(style="margin-bottom:0px") Velocidad Alcanzada
+                                        p.text-lg.text-semibold(style="margin-bottom:0px") {{ 'CUSTOM_DASHBOARD.ACTUAL_VELOCITY' | translate }}
                                     div.pad-all.text-center 
                                         canvas.canvas-responsive(tg-project-is-velocity-gauge id="avg-velocity-gauge" height="100")
                                         p
                                             span.text-lg.text-semibold {{ actualSpeed }} 
-                                            small Puntos por Sprint
-                                             
-                
-                div.row
-                    div.col-lg-12
-                        div.panel(style="display:inline-block; width:100%")
-                            div.panel-heading 
-                                h3.panel-title Riesgos por Categoría 
-                            div.panel-body 
-                                div(tg-issues-severity-graph id="issues-chart" style="min-width: 310px; height: 300px; margin: 0 auto;")
-                      
+                                            small {{'CUSTOM_DASHBOARD.POINTS_BY_SPRINT' | translate }}          
+                                
+                                      
                 div.row
                     div.col-lg-4 
                         div.panel 
@@ -126,7 +131,7 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
                             div.col-md-12.col-lg-6.eq-box-lg 
                                 div.panel 
                                     div.panel-heading 
-                                        h3.panel-title % Sprint Completado
+                                        h3.panel-title % {{'CUSTOM_DASHBOARD.COMPLETED_SPRINT' | translate }}
                                     div.panel-body.text-center 
                                         div.pie-title-center(tg-sprint-percent-directive)
                                             span.pie-value.text-thin 0%
@@ -134,7 +139,7 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
                             div.col-md-12.col-lg-6.eq-box-lg 
                                 div.panel 
                                     div.panel-heading 
-                                        h3.panel-title % Historias de Usuario Completadas 
+                                        h3.panel-title % {{'CUSTOM_DASHBOARD.COMPLETED_USERSTORIES' | translate }} 
                                     div.panel-body.text-center 
                                         div.pie-title-center(tg-sprint-percent-userstories-directive)
                                             span.pie-value.text-thin 0%                        
@@ -142,8 +147,7 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
                             div.col-lg-12 
                                   div.panel(style="display:inline-block;width:100%") 
                                       div.panel-heading 
-                                          div.panel-title Velocidad por Sprint  
-                                              //- small(style="margin-left: 10px;") ({{ project.name }})
+                                          div.panel-title {{ 'CUSTOM_DASHBOARD.SPRINT_BURNDOWN' | translate }}
                                           
                                       div.panel-body
                                           div(ng-if="!sprintStats" style="height:280px; text-align:center")
@@ -160,7 +164,7 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
                     div.col-lg-12 
                         div.panel
                             div.panel-heading 
-                                h3.panel-title Estimaciones 
+                                h3.panel-title {{ 'CUSTOM_DASHBOARD.ESTIMATION_ACCURACY' | translate }} 
                             div.panel-body
                                 div(ng-if="!actualSprint" style="height:280px; text-align:center")
                                     img(
@@ -178,7 +182,7 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
                     div.col-lg-4
                         div.panel
                             div.panel-heading 
-                                h3.panel-title Equipo 
+                                h3.panel-title {{'CUSTOM_DASHBOARD.TEAM' | translate }} 
                             div.panel-body 
                                 perfect-scrollbar(class="scroller" wheel-propagation="true" wheel.speed="10" min-scroll-length="10" style="height: 350px;")
                                     a.list-group-item(ng-repeat="user in members | membersFilter:filtersQ:filtersRole", style="cursor:pointer; display:inline-flex; width:100%; border-color: transparent", ng-click="vm.setMember(user)")
@@ -198,7 +202,7 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
                     div.col-md-8
                         div.panel
                             div.panel-heading 
-                                h3.panel-title Velocidad de   {{ member.full_name }}
+                                h3.panel-title {{'CUSTOM_DASHBOARD.TEAM_VELOCITY' | translate }}   {{ member.full_name }}
                             div.panel-body
                                 div(ng-if="!member" style="height:280px; text-align:center")
                                     img(
@@ -209,7 +213,40 @@ section.main(style="padding-left: 15px; padding-right: 15px; background-color: #
                                     p.title(style="font-size:1.2rem;font-family:'OpenSans-Light' Arial, Helvetica, sans-serif; margin:0") POR FAVOR SELECCIONA UN NOMBRE!
                                     p(style="line-height:1.5;margin:0 0 20px;font-family: 'OpenSans-Light' Arial, Helvetica, sans-serif; color: #5b8200") Así puedes ver su velocidad en el proyecto
                                 div(ng-if="member")
-                                    div.burndown(tg-velocity-by-member-directive id="velocity-member" style="height:350px")                      
+                                    div.burndown(tg-velocity-by-member-directive id="velocity-member" style="height:350px")
+                                    
+                    
+                    div.row
+                        div.col-lg-12
+                            div.panel(style="display:inline-block; width:100%")
+                                div.panel-heading 
+                                    h3.panel-title {{ 'CUSTOM_DASHBOARD.ISSUE_SEVERITY' | translate }}
+                                div.panel-body 
+                                    div(tg-issues-severity-graph id="issues-chart" style="min-width: 310px; height: 300px; margin: 0 auto;")
+                    
+                    div.row
+                        div.col-lg-12
+                            div.panel(style="display:inline-block; width:100%")
+                                div.panel-heading 
+                                    h3.panel-title {{ 'CUSTOM_DASHBOARD.ISSUE_TYPE' | translate }}
+                                div.panel-body 
+                                    div(tg-issues-type-graph id="issues-type-chart" style="min-width: 310px; height: 300px; margin: 0 auto;")    
+
+                    div.row
+                        div.col-lg-12
+                            div.panel(style="display:inline-block; width:100%")
+                                div.panel-heading 
+                                    h3.panel-title {{ 'CUSTOM_DASHBOARD.ISSUE_STATUS' | translate }} 
+                                div.panel-body 
+                                    div(tg-issues-status-graph id="issues-status-chart" style="min-width: 310px; height: 300px; margin: 0 auto;")
+                                    
+                    div.row 
+                        div.col-lg-12
+                            div.panel(style="display:inline-block; width:100%")
+                                div.panel-heading 
+                                    h3.panel-title {{ 'CUSTOM_DASHBOARD.ISSUE_PRIORITY' | translate }}
+                                div.panel-body 
+                                    div(tg-issues-priority-graph id="issues-priority-chart" style="min-width: 310px; height: 300px; margin: 0 auto;")                      
                                 
                                 
             section(ng-if="!project")

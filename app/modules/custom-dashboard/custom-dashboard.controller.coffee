@@ -52,7 +52,10 @@ class CustomDashboardController
 
     loadMainProjects: () ->
           return @rs.projects.list('all').then (result) =>
-            @scope.projectsTry = Immutable.fromJS(result)
+            open_projects = _.filter(result, ((project) -> project.is_private == false))
+            console.log("The open projects")
+            console.log(result)
+            @scope.projectsTry = Immutable.fromJS(open_projects)
           return projectsTry
 
     loadUserstories: (projectId) ->
@@ -216,20 +219,13 @@ class CustomDashboardController
         }
         promise = @.loadInitialData(@scope.projectId)
         promise.then =>
-            console.log("Sprints:")
+            console.log('The entire project')
             console.log(@scope.sprints)
-            console.log("This are the statuses")
-            console.log(@scope.testProject.us_statuses)
-            console.log("This is the entire project")
-            console.log(@scope.testProject)
             @scope.userstories_status = @scope.testProject.us_statuses
             @scope.members = _.filter(@scope.testProject.members, ((user) -> user.is_active == true))
             @scope.roles = @scope.testProject.roles
-            console.log("--------Members:")
             @.loadMembersStats(@scope.members)
             console.log(@scope.members)
-
-            console.log("-------The issues")
             console.log(@scope.issues)
 
 
@@ -240,6 +236,8 @@ class CustomDashboardController
         console.log("-----This are the sprints")
         for sprint in @scope.sprints
             userstories_m = _.filter(sprint.user_stories, ((story) -> story.assigned_to == member.id))
+            console.log("****** USERSTORIES ASSIGNED TO THE USER")
+            console.log(userstories_m)
             completed_u = 0
             commited_u = 0
             for userstory in userstories_m
@@ -248,6 +246,8 @@ class CustomDashboardController
                 if userstory.is_closed
                     completed_u += totalpoints
             sprintMember.push({ "name" : sprint.name, "commited": commited_u, "completed": completed_u})
+            console.log("******** SPRINT MEMBER")
+            console.log(sprintMember)
         @scope.completed_points_member = sprintMember
 
         totalCommitedPoints = 0
@@ -323,7 +323,7 @@ BurndownGraphDirective = ->
                         lineColor: '#DDDDDD'
                 }
                 {
-                    name: 'Evolución'
+                    name: 'Real'
                     data: evolution_line
                     marker:
                         fillColor: 'rgba(54,184,213, 0.7)'
@@ -424,46 +424,6 @@ ProjectDeviationDirective = ->
         $scope.$on "destroy", ->
             $el.off()
     return {link: link}
-
-    # link = ($scope, $el, $attrs) ->
-    #         element = angular.element($el)
-    #         step = element.find('.pie-value')
-    #
-    #         $scope.$watchGroup ["sprints", "currentSprint"], (oldValue, newValue) ->
-    #               if $scope.sprints?
-    #                   sprintsClosedPoints = _.map($scope.sprints, (ml) -> ml.closed_points)
-    #
-    #                   for point, index in sprintsClosedPoints
-    #                       sprintsClosedPoints[index] = 0 if point == null
-    #
-    #                   totalClosedPoints = _.reduce(sprintsClosedPoints, ((memo, num) -> memo + num), 0)
-    #                   avgClosedPoints = totalClosedPoints / sprintsClosedPoints.length
-    #
-    #                   sprintsTotalPoints = _.map($scope.sprints, (ml) -> ml.total_points)
-    #                   totalPoints = _.reduce(sprintsTotalPoints, ((memo, num) -> memo + num), 0)
-    #                   avgTotalPoints = totalPoints / sprintsTotalPoints.length
-    #
-    #                   deviation = 100 * (Math.abs(avgClosedPoints-avgTotalPoints)) / avgTotalPoints
-    #                   console.log("Original deviation:")
-    #                   console.log("totalPoints:")
-    #                   console.log($scope.sprints)
-    #                   if isNaN(deviation)
-    #                       deviation = 0
-    #
-    #                   deviation = Math.round(deviation)
-    #
-    #                   $(element).easyPieChart({
-    #                         barColor: '#fff'
-    #                         scaleColor: false
-    #                         trackColor: '#26A69A'
-    #                         lineCap: 'butt'
-    #                         lineWidth: 10
-    #                         animate: 1000
-    #                         onStep: (value) -> step.text(value + '%')
-    #                         onStop: (value, to) -> step.text(to + '%')
-    #                     }).data('easyPieChart').update(deviation)
-    #   return {link: link}
-
 angular.module("taigaCustomDashboard").directive("tgProjectDeviationDirective", [ProjectDeviationDirective])
 
 #############################################################################
@@ -501,7 +461,6 @@ angular.module("taigaCustomDashboard").directive("tgProjectCompletedIssuesDirect
 #############################################################################
 AssignedPointsByRoleDirective = ->
     redrawChart = (element, stats, roles) ->
-        console.log("Inside!!")
         assignedPointsByRole = stats.assigned_points_per_role
         totalPoints = 0
         for key of assignedPointsByRole
@@ -514,7 +473,6 @@ AssignedPointsByRoleDirective = ->
                 if parseInt(key) is parseInt(id)
                     percent = (assignedPointsByRole[key] * 100) / totalPoints
                     pointsPerRole.push({'name': role.name, 'y': percent})
-        console.log(pointsPerRole)
 
         options =
             chart:
@@ -547,7 +505,6 @@ AssignedPointsByRoleDirective = ->
                   }
                 ]
 
-
         element.empty()
         Highcharts.chart('points-role', options)
 
@@ -567,6 +524,70 @@ AssignedPointsByRoleDirective = ->
     return {link: link}
 angular.module('taigaCustomDashboard').directive("tgAssignedPointsByRoleGraph", [AssignedPointsByRoleDirective])
 
+#############################################################################
+## Eficciency in Estimation directive
+#############################################################################
+EffiencyEstimationDirective = ->
+    redrawChart = (element, dataToDraw) ->
+        user_stories_by_sprint = []
+        for sprint in dataToDraw
+            user_stories_by_sprint.push(sprint.user_stories)
+
+        user_stories = []
+        for stories in user_stories_by_sprint
+            for us in stories
+                user_stories.push(us)
+
+        points = _.map(user_stories, (us) -> us.total_points)
+        real_points = _.map(user_stories, (us) -> us.real_total_points)
+
+        total_points = _.reduce(points, ((initial, num) -> initial + num), 0)
+        real_total_points = _.reduce(real_points, ((initial, num) -> initial + num), 0)
+
+        percentage = 0
+        if total_points != 0
+            percentage = Math.round((real_total_points * 100) / total_points)
+
+        console.log('*** This are the userstories')
+        console.log(user_stories)
+
+        console.log('*** This are the total points')
+        console.log(total_points)
+
+        console.log('*** This are the real points')
+        console.log(real_total_points)
+
+        console.log('*** This is the percentage')
+        console.log(percentage)
+
+
+        step = element.find('.pie-value')
+        $(element).easyPieChart({
+              barColor: '#fff'
+              scaleColor: false
+              trackColor: '#26A69A'
+              lineCap: 'butt'
+              lineWidth: 10
+              animate: 1000
+              onStep: (value) -> step.text(value + '%')
+              onStop: (value, to) -> step.text(to + '%')
+          }).data('easyPieChart').update(percentage)
+
+    link = ($scope, $el, $attrs) ->
+        element = angular.element($el)
+
+        $scope.$watch "sprints", (value) ->
+            if $scope.sprints?
+                redrawChart(element, $scope.sprints)
+
+            $scope.$on "resize", ->
+                redrawChart(element, $scope.sprints)
+
+        $scope.$on "destroy", ->
+            $el.off()
+    return {link: link}
+angular.module("taigaCustomDashboard").directive("tgEfficiencyEstimationDirective", [EffiencyEstimationDirective])
+
 
 #############################################################################
 ## CustomBurndownHighchart graph directive
@@ -576,6 +597,8 @@ PredictiveBurndownDirective = ->
     redrawChart = (element,dataToDraw) ->
         milestonesRange = [0..(dataToDraw.milestones.length - 1)]
         milestonesNames = _.map(dataToDraw.milestones, (ml) -> ml.name)
+        milestonesRange[0] = 'Backlog'
+
         closed_points = _.filter(_.map(dataToDraw.milestones, (ml) -> ml.evolution), (evolution) -> evolution? )
         client_increment_line = _.map(dataToDraw.milestones, (ml) -> ml["client-increment"])
         evolution = []
@@ -594,7 +617,7 @@ PredictiveBurndownDirective = ->
               text: ''
 
           xAxis:
-              categories: milestonesNames
+              categories: milestonesRange
               title:
                   text: 'Sprints'
 
@@ -808,7 +831,7 @@ angular.module("taigaCustomDashboard").directive("tgCustomVelocityHighchartGraph
 
 
 #############################################################################
-## Mean is velocity gauge directive
+## Mean velocity gauge directive
 #############################################################################
 ProjectIsVelocityGauge = ->
     link = ($scope, $el, $attrs) ->
@@ -957,10 +980,14 @@ ConfidenceBandHighcharts = ->
         ranges = []
         values = []
         calculatedValues = []
+        ids = []
+        names = []
         console.log("Checking the userstories")
         console.log(sprint)
+        console.log("Sprint userstories")
+        console.log(sprint.user_stories)
         for userstory, i in sprint.user_stories
-            sumEstimatedPoints = _.reduce(_.values(userstory.points), ((res, n) -> res + n), 0)
+            sumEstimatedPoints = userstory.total_points
             realPoints = Math.round(userstory.real_total_points)
             percent = Math.round((value * realPoints)/100)
             lower_percent = realPoints - percent
@@ -969,6 +996,8 @@ ConfidenceBandHighcharts = ->
             values.push([i, realPoints])
             ranges.push([i, lower_percent, upper_percent])
             calculatedValues.push([i, sumEstimatedPoints])
+            ids.push(userstory.ref)
+            names.push(userstory.subject)
 
         console.log("Ranges")
         console.log(ranges)
@@ -985,19 +1014,22 @@ ConfidenceBandHighcharts = ->
               enabled: false
           xAxis:
               type: 'category'
+              categories: ids
               title:
                   text: 'Historias de Usuario'
           yAxis:
               min: 0
+              tickInterval: 50
               title:
                   text: 'Puntos (Historias de Usuario)'
           tooltip:
               crosshairs: true
               shared: true
               valueSuffix: ' puntos'
+
           series: [
             {
-                name: 'Costo real'
+                name: 'Puntos Re-Estimados al Finalizar la Historia de Usuario'
                 data: values
                 zIndex: 1
                 color: Highcharts.getOptions().colors[0]
@@ -1007,17 +1039,17 @@ ConfidenceBandHighcharts = ->
                     lineColor: Highcharts.getOptions().colors[0]
             }
             {
-                name: 'Margen de error'
+                name: 'Margen aceptable'
                 data: ranges
                 type: 'arearange'
                 lineWidth: 0
                 linkedTo: ':previous'
-                color: '#E0E3DA'
+                color: '#566270'
                 fillOpacity: 0.3
                 zIndex: 0
             }
             {
-                name: 'Costo estimado'
+                name: 'Puntos Estimados al crear la Historia de Usuario'
                 data: calculatedValues
                 color: Highcharts.getOptions().colors[2]
                 marker:
@@ -1057,6 +1089,11 @@ VelocityByMemberDirective = ->
         sprintsNames = _.map(sprints, (sprint) -> sprint.name)
         commitedPoints = _.map(sprints, (sprint) -> sprint.commited)
         completedPoints = _.map(sprints, (sprint) -> sprint.completed)
+
+        console.log("****** COMPLETED POINTS")
+        console.log(completedPoints)
+        console.log("****** COMMITED POINTS")
+        console.log(commitedPoints)
 
 
         options =
@@ -1179,16 +1216,6 @@ IssuesSeverityDirective = ->
                       fontWeight: 'bold'
                       color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
           }
-          legend:
-              align: 'right'
-              x: -30
-              verticalAlign: 'top'
-              y: 25
-              floating: true
-              backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white'
-              borderColor: '#CCC'
-              borderWidth: 1
-              shadow: false
 
           tooltip: {
               headerFormat: '<b>{point.x}</b><br/>'
@@ -1223,6 +1250,293 @@ IssuesSeverityDirective = ->
     return {link: link}
 angular.module("taigaCustomDashboard").directive("tgIssuesSeverityGraph", [IssuesSeverityDirective])
 
+# #############################################################################
+# ## Issues Type through project directive
+# #############################################################################
+IssuesTypeDirective = ->
+
+    findSprint = (date, sprints) ->
+      for sprint in sprints.reverse()
+          date = moment(date, 'YYYY-MM-DD')
+          start = moment(sprint.estimated_start, 'YYYY-MM-DD').format('x')
+          end = moment(sprint.estimated_finish, 'YYYY-MM-DD').format('x')
+          if date >= start && date <= end
+              return sprint
+
+
+    redrawChart = (element, sprints, issues, project) ->
+        sprintsNames = _.map(sprints, (ml) -> ml.name)
+        sprintsNames = sprintsNames
+        issue_types = _.map(project.issue_types, (sv) -> sv.name)
+        console.log("The project from where we get the severities")
+        console.log(project)
+        for sprint in sprints
+            sprint.issues = []
+            for issue in issues
+                if sprint == findSprint(issue.created_date, sprints)
+                  sprint.issues.push(issue)
+
+        series = []
+        for type in project.issue_types
+            type_count = []
+            for sprint in sprints
+                counts = _.filter(sprint.issues, ((iss) -> iss.type == type.id)).length
+                type_count.push(counts)
+
+            serie_data =
+              name: type.name
+              data: type_count
+            series.push(serie_data)
+
+        options = {
+          chart:
+              type: 'column'
+
+          title:
+              text: ''
+          credits:
+              enabled: false
+          xAxis:
+              categories: sprintsNames
+              title:
+                  text: 'Sprints'
+
+          yAxis: {
+              min: 0
+              title:
+                  text: 'Número de Riesgos'
+              stackLabels:
+                  enabled: true
+                  style:
+                      fontWeight: 'bold'
+                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+          }
+
+          tooltip: {
+              headerFormat: '<b>{point.x}</b><br/>'
+              pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+          }
+          plotOptions: {
+              column:
+                  stacking: 'normal',
+                  dataLabels:
+                      enabled: true,
+                      color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+          }
+          series: series
+        }
+
+        element.empty()
+        Highcharts.chart('issues-type-chart', options)
+
+    link = ($scope, $el, $attrs) ->
+        element = angular.element($el)
+
+        $scope.$watchGroup ["sprints", "issues", "testProject"], (oldValue, newValue) ->
+            if $scope.sprints?
+                redrawChart(element, $scope.sprints, $scope.issues, $scope.testProject)
+
+                $scope.$on "resize", ->
+                    redrawChart(element, $scope.sprints, $scope.issues, $scope.testProject)
+
+        $scope.$on "destroy", ->
+            $el.off()
+
+    return {link: link}
+angular.module("taigaCustomDashboard").directive("tgIssuesTypeGraph", [IssuesTypeDirective])
+
+# #############################################################################
+# ## Issues Status through project directive
+# #############################################################################
+IssuesStatusDirective = ->
+
+    findSprint = (date, sprints) ->
+      for sprint in sprints.reverse()
+          date = moment(date, 'YYYY-MM-DD')
+          start = moment(sprint.estimated_start, 'YYYY-MM-DD').format('x')
+          end = moment(sprint.estimated_finish, 'YYYY-MM-DD').format('x')
+          if date >= start && date <= end
+              return sprint
+
+
+    redrawChart = (element, sprints, issues, project) ->
+        sprintsNames = _.map(sprints, (ml) -> ml.name)
+        sprintsNames = sprintsNames
+        issue_types = _.map(project.issue_types, (sv) -> sv.name)
+        console.log("The project from where we get the severities")
+        console.log(project)
+        for sprint in sprints
+            sprint.issues = []
+            for issue in issues
+                if sprint == findSprint(issue.created_date, sprints)
+                  sprint.issues.push(issue)
+
+        series = []
+        for status in project.issue_statuses
+            status_count = []
+            for sprint in sprints
+                counts = _.filter(sprint.issues, ((iss) -> iss.status == status.id)).length
+                status_count.push(counts)
+
+            serie_data =
+              name: status.name
+              data: status_count
+            series.push(serie_data)
+
+        options = {
+          chart:
+              type: 'column'
+
+          title:
+              text: ''
+          credits:
+              enabled: false
+          xAxis:
+              categories: sprintsNames
+              title:
+                  text: 'Sprints'
+
+          yAxis: {
+              min: 0
+              title:
+                  text: 'Peticiones por Prioridad'
+              stackLabels:
+                  enabled: true
+                  style:
+                      fontWeight: 'bold'
+                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+          }
+
+
+          tooltip: {
+              headerFormat: '<b>{point.x}</b><br/>'
+              pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+          }
+          plotOptions: {
+              column:
+                  stacking: 'normal',
+                  dataLabels:
+                      enabled: true,
+                      color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+          }
+          series: series
+        }
+
+        element.empty()
+        Highcharts.chart('issues-status-chart', options)
+
+    link = ($scope, $el, $attrs) ->
+        element = angular.element($el)
+
+        $scope.$watchGroup ["sprints", "issues", "testProject"], (oldValue, newValue) ->
+            if $scope.sprints?
+                redrawChart(element, $scope.sprints, $scope.issues, $scope.testProject)
+
+                $scope.$on "resize", ->
+                    redrawChart(element, $scope.sprints, $scope.issues, $scope.testProject)
+
+        $scope.$on "destroy", ->
+            $el.off()
+
+    return {link: link}
+angular.module("taigaCustomDashboard").directive("tgIssuesStatusGraph", [IssuesStatusDirective])
+
+
+# #############################################################################
+# ## Issues Priority through project directive
+# #############################################################################
+IssuesPriorityDirective = ->
+
+    findSprint = (date, sprints) ->
+      for sprint in sprints.reverse()
+          date = moment(date, 'YYYY-MM-DD')
+          start = moment(sprint.estimated_start, 'YYYY-MM-DD').format('x')
+          end = moment(sprint.estimated_finish, 'YYYY-MM-DD').format('x')
+          if date >= start && date <= end
+              return sprint
+
+
+    redrawChart = (element, sprints, issues, project) ->
+        sprintsNames = _.map(sprints, (ml) -> ml.name)
+        sprintsNames = sprintsNames
+        issue_priorities = _.map(project.priorities, (sv) -> sv.name)
+        console.log("The project from where we get the priori")
+        console.log(project)
+        for sprint in sprints
+            sprint.issues = []
+            for issue in issues
+                if sprint == findSprint(issue.created_date, sprints)
+                  sprint.issues.push(issue)
+
+        series = []
+        for priority in project.priorities
+            priority_count = []
+            for sprint in sprints
+                counts = _.filter(sprint.issues, ((iss) -> iss.priority == priority.id)).length
+                priority_count.push(counts)
+
+            serie_data =
+              name: priority.name
+              data: priority_count
+            series.push(serie_data)
+
+        options = {
+          chart:
+              type: 'column'
+
+          title:
+              text: ''
+          credits:
+              enabled: false
+          xAxis:
+              categories: sprintsNames
+              title:
+                  text: 'Sprints'
+
+          yAxis: {
+              min: 0
+              title:
+                  text: 'Peticiones por Prioridad'
+              stackLabels:
+                  enabled: true
+                  style:
+                      fontWeight: 'bold'
+                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+          }
+
+
+          tooltip: {
+              headerFormat: '<b>{point.x}</b><br/>'
+              pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+          }
+          plotOptions: {
+              column:
+                  stacking: 'normal',
+                  dataLabels:
+                      enabled: true,
+                      color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+          }
+          series: series
+        }
+
+        element.empty()
+        Highcharts.chart('issues-priority-chart', options)
+
+    link = ($scope, $el, $attrs) ->
+        element = angular.element($el)
+
+        $scope.$watchGroup ["sprints", "issues", "testProject"], (oldValue, newValue) ->
+            if $scope.sprints?
+                redrawChart(element, $scope.sprints, $scope.issues, $scope.testProject)
+
+                $scope.$on "resize", ->
+                    redrawChart(element, $scope.sprints, $scope.issues, $scope.testProject)
+
+        $scope.$on "destroy", ->
+            $el.off()
+
+    return {link: link}
+angular.module("taigaCustomDashboard").directive("tgIssuesPriorityGraph", [IssuesPriorityDirective])
 
 
 #############################################################################
@@ -1249,108 +1563,3 @@ SprintUserstoriesPercentDirective = ->
                 }).data('easyPieChart').update(valuePercentage)
       return {link: link}
 angular.module("taigaCustomDashboard").directive("tgSprintPercentUserstoriesDirective", [SprintUserstoriesPercentDirective])
-
-
-#############################################################################
-## Comulative workflow directive
-#############################################################################
-# CustomCumulativeWorkflowDirective = ->
-#     redrawChart = (chart, sprints, us_statuses) ->
-#         sprintsNames = _.map(sprints, (ml) -> ml.name)
-#         sprintsNames = sprintsNames.reverse()
-#         us_statusesNames = _.map(us_statuses, (us) -> us.name)
-#         us_ids = _.map(us_statuses, (us) -> us.id)
-#         data = []
-#         for status in us_statuses
-#             status_data = []
-#             for sprint, index in sprints
-#                 counter = 0
-#                 for userstory in sprint.user_stories
-#                     if userstory.status == status.id
-#                         counter = counter + 1
-#                 status_data[index] = counter
-#             data.push(status_data)
-#
-#         console.log("**Data")
-#         console.log(data)
-#         console.log("Userstories")
-#         for sprint in sprints
-#             console.log("The name: #{sprint.name}")
-#             for userstory in sprint.user_stories
-#                 console.log("Status: #{userstory.status}")
-#
-#         series = []
-#         for serie, index in data
-#             item =
-#               name: us_statusesNames[index]
-#               type: 'bar'
-#               data: serie
-#             series.push(item)
-#
-#         options =
-#           tooltip:
-#             trigger: 'axis'
-#           legend:
-#             data: us_statusesNames
-#           showXAxis: true
-#           showYAxis: true
-#           showLegend: true
-#           stack: false
-#           toolbox:
-#             show: true
-#             feature:
-#               restore:
-#                 show: true
-#               saveAsImage:
-#                 show: true
-#               magicType:
-#                 show: true
-#                 title:
-#                   line: 'Line'
-#                   bar: 'Bar'
-#                 type: [
-#                   'line'
-#                   'bar'
-#                   'stack'
-#                   'tiled'
-#                 ]
-#           xAxis: [
-#             type: 'category'
-#             boundaryGap: true
-#             data: sprintsNames
-#           ]
-#           yAxis: [
-#             type: 'value'
-#           ]
-#           series: series
-#
-#         chart.setOption(options)
-#
-#     link = ($scope, $el, $attrs) ->
-#         element = angular.element($el)
-#         ndWrapper = element[0]
-#         ndParent = element.parent()[0]
-#
-#         getSizes = () ->
-#             width = ndParent.clientWidth
-#             height = ndParent.clientHeight
-#             ndWrapper.style.width = width + 'px'
-#             ndWrapper.style.height = 378 + 'px'
-#
-#         getSizes()
-#         chart = echarts.init(ndWrapper, 'macarons')
-#
-#         $scope.$watchGroup ["sprints", "userstories_status"], (oldValue, newValue) ->
-#             if $scope.sprints?
-#                 chart.clear()
-#                 redrawChart(chart, $scope.sprints, $scope.userstories_status)
-#
-#         $scope.$on "resize", ->
-#             getSizes()
-#             chart.resize()
-#
-#         $scope.$on "destroy", ->
-#             $el.off()
-#
-#     return {link: link}
-# angular.module("taigaCustomDashboard").directive("tgCustomComulativeWorkflowGraph", [CustomCumulativeWorkflowDirective])

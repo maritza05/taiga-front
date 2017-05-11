@@ -1713,7 +1713,29 @@
         }
     },
     "CUSTOM_DASHBOARD": {
-      "PAGE_TITLE": "Analytics"
+      "PAGE_TITLE": "Analytics",
+      "ISSUE_SEVERITY": "Issues by Severity",
+      "ISSUE_TYPE": "Issues by Type",
+      "ISSUE_STATUS": "Issues by Status",
+      "ISSUE_PRIORITY": "Issues by Priority",
+      "CLOSED_PROJECT": "Is this project closed?",
+      "SOLVED_ISSUES": "Solved Issues",
+      "ESTIMATION_ACCURACY": "Estimation Accuracy",
+      "PROJECT_STATICS": "Project Statistics",
+      "PREDICTIONS": "Predictions",
+      "VELOCITY": "Velocity",
+      "COMPLETED_SPRINT": "Completed Sprint",
+      "COMPLETED_PROJECT": "Completed",
+      "COMPLETED_USERSTORIES": "Completed Userstories",
+      "PROJECT_DEVIATION": "Project Deviation",
+      "ESTIMATION_EFFICIENCY": "Estimation Efficiency",
+      "POINTS_BY_ROLE": "Points By Role",
+      "SPRINT_BURNDOWN": "Sprint Burndown",
+      "TEAM": "Team",
+      "PLANNED_VELOCITY": "Desired Velocity",
+      "ACTUAL_VELOCITY": "Actual Velocity",
+      "POINTS_BY_SPRINT": "Points by Sprint",
+      "TEAM_VELOCITY": "Velocity of the Member"
     }
 
 }
